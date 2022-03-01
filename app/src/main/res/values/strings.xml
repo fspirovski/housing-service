@@ -1,11 +1,9 @@
 <resources>
-    <string name="app_name">housing-service</string>
+    <string name="app_name">Housing Service</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_login_fragment">Hello login fragment</string>
-    <string name="hello_register_fragment">Hello register fragment</string>
     <string name="title_login">Login</string>
     <string name="title_register">Register</string>
+    <string name="title_lobby">Lobby</string>
 </resources>

@@ -6,29 +6,14 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".ui.auth.login.LoginFragment">
+    tools:context=".ui.auth.lobby.LobbyFragment">
 
     <EditText
-        android:id="@+id/loginEmailAddress"
+        android:id="@+id/houseCouncilId"
         android:layout_width="300dp"
         android:layout_height="50dp"
-        android:hint="Your email address"
-        android:inputType="textEmailAddress"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.500"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.150"
-        tools:ignore="TextContrastCheck" />
-
-    <EditText
-        android:id="@+id/loginPassword"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:hint="Your password"
-        android:inputType="textPassword"
+        android:hint="Join your house council by entering a valid id"
+        android:inputType="textPersonName"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,29 +24,29 @@
         tools:ignore="TextContrastCheck" />
 
     <Button
-        android:id="@+id/loginButton"
+        android:id="@+id/joinHouseCouncilButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="Join"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.500"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.300" />
+        app:layout_constraintVertical_bias="0.150" />
 
     <Button
-        android:id="@+id/navigateToRegistrationButton"
+        android:id="@+id/registerHouseCouncilButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register here"
+        android:text="Register a new house council"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.500"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.300" />
+        app:layout_constraintVertical_bias="0.150" />
 
 </LinearLayout>

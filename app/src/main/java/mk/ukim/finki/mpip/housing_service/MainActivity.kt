@@ -7,12 +7,16 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.auth0.android.jwt.DecodeException
+import com.auth0.android.jwt.JWT
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import mk.ukim.finki.mpip.housing_service.databinding.ActivityMainBinding
+import mk.ukim.finki.mpip.housing_service.service.LocalStorageService
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private val localStorageService = LocalStorageService()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +42,15 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
 
-    private fun isLoggedIn(): Boolean = false
+    private fun isLoggedIn(): Boolean {
+        val token = localStorageService.getData("jwt", null) ?: return false
+
+        return try {
+            !JWT(token).isExpired(0)
+        } catch (e: DecodeException) {
+            false
+        }
+    }
 
     private fun redirectToAuthActivity() {
         val intent = Intent(this, AuthActivity::class.java)
