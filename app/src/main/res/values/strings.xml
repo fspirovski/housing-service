@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">housing-service</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_amenities">Amenities</string>
+    <string name="title_amenity_items">Amenity Items</string>
+    <string name="title_polls">Polls</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_login_fragment">Hello login fragment</string>
     <string name="hello_register_fragment">Hello register fragment</string>
