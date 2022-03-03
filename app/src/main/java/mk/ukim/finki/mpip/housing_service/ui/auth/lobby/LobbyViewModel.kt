@@ -15,9 +15,9 @@ class LobbyViewModel : ViewModel() {
     val responseMessage = MutableLiveData<String>()
     val responseError = MutableLiveData<Boolean>()
 
-    fun findHouseCouncilById(id: String) {
+    fun joinHouseCouncil(houseCouncilId: String) {
         HousingService
-            .findHouseCouncilById(id)
+            .joinHouseCouncil(houseCouncilId)
             .enqueue(object : Callback<HouseCouncil> {
                 override fun onResponse(
                     call: Call<HouseCouncil>,
@@ -26,10 +26,17 @@ class LobbyViewModel : ViewModel() {
                     if (response.isSuccessful) {
                         val houseCouncil = response.body()!!
 
+                        responseMessage.value = "Welcome!"
                         responseError.value = false
                         saveHouseCouncilInfo(houseCouncil)
                     } else {
-                        responseMessage.value = "Error ${response.code()}."
+//                        val gson = Gson()
+//
+//                        responseMessage.value = gson.fromJson(
+//                            response.errorBody()?.charStream(),
+//                            String::class.java
+//                        )
+                        responseMessage.value = "An error occurred! Error ${response.code()}."
                         responseError.value = true
                     }
                 }
