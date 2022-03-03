@@ -2,6 +2,9 @@ package mk.ukim.finki.mpip.housing_service.ui.auth.lobby
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import mk.ukim.finki.mpip.housing_service.domain.model.HouseCouncil
 import mk.ukim.finki.mpip.housing_service.service.LocalStorageService
 import mk.ukim.finki.mpip.housing_service.service.rest.HousingService
@@ -16,36 +19,38 @@ class LobbyViewModel : ViewModel() {
     val responseError = MutableLiveData<Boolean>()
 
     fun joinHouseCouncil(houseCouncilId: String) {
-        HousingService
-            .joinHouseCouncil(houseCouncilId)
-            .enqueue(object : Callback<HouseCouncil> {
-                override fun onResponse(
-                    call: Call<HouseCouncil>,
-                    response: Response<HouseCouncil>
-                ) {
-                    if (response.isSuccessful) {
-                        val houseCouncil = response.body()!!
+        CoroutineScope(Dispatchers.IO).launch {
+            HousingService
+                .joinHouseCouncil(houseCouncilId)
+                .enqueue(object : Callback<HouseCouncil> {
+                    override fun onResponse(
+                        call: Call<HouseCouncil>,
+                        response: Response<HouseCouncil>
+                    ) {
+                        if (response.isSuccessful) {
+                            val houseCouncil = response.body()!!
 
-                        responseMessage.value = "Welcome!"
-                        responseError.value = false
-                        saveHouseCouncilInfo(houseCouncil)
-                    } else {
+                            responseMessage.postValue("Welcome!")
+                            responseError.postValue(false)
+                            saveHouseCouncilInfo(houseCouncil)
+                        } else {
 //                        val gson = Gson()
 //
 //                        responseMessage.value = gson.fromJson(
 //                            response.errorBody()?.charStream(),
 //                            String::class.java
 //                        )
-                        responseMessage.value = "An error occurred! Error ${response.code()}."
-                        responseError.value = true
+                            responseMessage.postValue("An error occurred! Error ${response.code()}.")
+                            responseError.postValue(true)
+                        }
                     }
-                }
 
-                override fun onFailure(call: Call<HouseCouncil>, t: Throwable) {
-                    responseMessage.value = t.message
-                    responseError.value = true
-                }
-            })
+                    override fun onFailure(call: Call<HouseCouncil>, t: Throwable) {
+                        responseMessage.postValue(t.message)
+                        responseError.postValue(true)
+                    }
+                })
+        }
     }
 
     private fun saveHouseCouncilInfo(houseCouncil: HouseCouncil) {
