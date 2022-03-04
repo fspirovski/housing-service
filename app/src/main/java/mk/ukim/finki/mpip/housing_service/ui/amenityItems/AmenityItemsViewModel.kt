@@ -2,6 +2,9 @@ package mk.ukim.finki.mpip.housing_service.ui.amenityItems
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import mk.ukim.finki.mpip.housing_service.domain.model.AmenityItem
 import mk.ukim.finki.mpip.housing_service.domain.model.AmenityItemStatus
 import mk.ukim.finki.mpip.housing_service.service.LocalStorageService
@@ -18,28 +21,36 @@ class AmenityItemsViewModel : ViewModel() {
     val responseError = MutableLiveData<Boolean>()
 
     fun findAllAmenityItemsByResidentAndStatus(status: AmenityItemStatus?) {
-        HousingService
-            .findAllAmenityItemsByResidentAndStatus(localStorageService.getData("residentId", "").toString(), status)
-            .enqueue(object : Callback<MutableList<AmenityItem>> {
-                override fun onResponse(
-                    call: Call<MutableList<AmenityItem>>,
-                    response: Response<MutableList<AmenityItem>>
-                ) {
-                    if(response.isSuccessful) {
-                        val amenityItems = response.body()!!
+        CoroutineScope(Dispatchers.IO).launch {
+            HousingService
+                .findAllAmenityItemsByResidentAndStatus(
+                    localStorageService.getData(
+                        "residentId",
+                        ""
+                    ).toString(), status
+                )
+                .enqueue(object : Callback<MutableList<AmenityItem>> {
+                    override fun onResponse(
+                        call: Call<MutableList<AmenityItem>>,
+                        response: Response<MutableList<AmenityItem>>
+                    ) {
+                        if (response.isSuccessful) {
+                            val amenityItems = response.body()!!
 
-                        amenityItemsList.value = amenityItems
-                        responseError.value = false
-                    } else {
-                        responseMessage.value = "Error ${response.code()}."
-                        responseError.value = true
+                            amenityItemsList.postValue(amenityItems)
+                            responseError.postValue(false)
+                        } else {
+                            responseMessage.postValue("An error occurred! Error ${response.code()}.")
+                            responseError.postValue(true)
+                        }
                     }
-                }
 
-                override fun onFailure(call: Call<MutableList<AmenityItem>>, t: Throwable) {
-                    responseMessage.value = t.message
-                    responseError.value = true
-                }
-            })
+                    override fun onFailure(call: Call<MutableList<AmenityItem>>, t: Throwable) {
+                        responseMessage.postValue(t.message)
+                        responseError.postValue(true)
+                    }
+                })
+        }
+
     }
 }
