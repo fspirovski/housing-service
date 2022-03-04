@@ -1,9 +1,13 @@
 <resources>
     <string name="app_name">Housing Service</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_amenities">Amenities</string>
+    <string name="title_amenity_items">Amenity Items</string>
+    <string name="title_polls">Polls</string>
     <string name="title_login">Login</string>
     <string name="title_register">Register</string>
     <string name="title_lobby">Lobby</string>
+    <string name="subtitle_amenities">List of all amenities</string>
+    <string name="subtitle_amenity_items">List of my amenity items</string>
+    <string name="subtitle_polls">List of all polls</string>
+
 </resources>

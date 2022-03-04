@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        localStorageService
         if (!isLoggedIn()) {
             redirectToAuthActivity()
         }
@@ -43,6 +44,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun isLoggedIn(): Boolean {
+        print(localStorageService.getData("jwt", null))
         val token = localStorageService.getData("jwt", null) ?: return false
 
         return try {

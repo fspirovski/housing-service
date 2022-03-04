@@ -9,5 +9,5 @@ data class Amenity(
     val amount: String,
     val createdAt: LocalDateTime,
     val status: AmenityStatus,
-    val houseCouncil: HouseCouncil
+//    val houseCouncil: HouseCouncil
 )
