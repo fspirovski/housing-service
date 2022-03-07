@@ -2,6 +2,9 @@ package mk.ukim.finki.mpip.housing_service.ui.auth.lobby
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import mk.ukim.finki.mpip.housing_service.domain.model.HouseCouncil
 import mk.ukim.finki.mpip.housing_service.service.LocalStorageService
 import mk.ukim.finki.mpip.housing_service.service.rest.HousingService
@@ -15,33 +18,42 @@ class LobbyViewModel : ViewModel() {
     val responseMessage = MutableLiveData<String>()
     val responseError = MutableLiveData<Boolean>()
 
-    fun findHouseCouncilById(id: String) {
-        HousingService
-            .findHouseCouncilById(id)
-            .enqueue(object : Callback<HouseCouncil> {
-                override fun onResponse(
-                    call: Call<HouseCouncil>,
-                    response: Response<HouseCouncil>
-                ) {
-                    if (response.isSuccessful) {
-                        val houseCouncil = response.body()!!
+    fun joinHouseCouncil(houseCouncilId: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            HousingService
+                .joinHouseCouncil(houseCouncilId)
+                .enqueue(object : Callback<HouseCouncil> {
+                    override fun onResponse(
+                        call: Call<HouseCouncil>,
+                        response: Response<HouseCouncil>
+                    ) {
+                        if (response.isSuccessful) {
+                            val houseCouncil = response.body()!!
 
-                        responseError.value = false
-                        saveHouseCouncilInfo(houseCouncil)
-                    } else {
-                        responseMessage.value = "Error ${response.code()}."
-                        responseError.value = true
+                            responseMessage.postValue("Welcome!")
+                            responseError.postValue(false)
+                            saveHouseCouncilInfo(houseCouncil)
+                        } else {
+//                        val gson = Gson()
+//
+//                        responseMessage.value = gson.fromJson(
+//                            response.errorBody()?.charStream(),
+//                            String::class.java
+//                        )
+                            responseMessage.postValue("An error occurred! Error ${response.code()}.")
+                            responseError.postValue(true)
+                        }
                     }
-                }
 
-                override fun onFailure(call: Call<HouseCouncil>, t: Throwable) {
-                    responseMessage.value = t.message
-                    responseError.value = true
-                }
-            })
+                    override fun onFailure(call: Call<HouseCouncil>, t: Throwable) {
+                        responseMessage.postValue(t.message)
+                        responseError.postValue(true)
+                    }
+                })
+        }
     }
 
     private fun saveHouseCouncilInfo(houseCouncil: HouseCouncil) {
-        localStorageService.saveData("house-council", houseCouncil.toString())
+        localStorageService.saveData("house-council", houseCouncil.id)
     }
 }

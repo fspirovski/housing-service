@@ -3,6 +3,9 @@ package mk.ukim.finki.mpip.housing_service.ui.auth
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import mk.ukim.finki.mpip.housing_service.domain.dto.AuthResponse
 import mk.ukim.finki.mpip.housing_service.domain.dto.LoginDto
 import mk.ukim.finki.mpip.housing_service.domain.dto.RegisterDto
@@ -21,36 +24,38 @@ class AuthViewModel : ViewModel() {
     fun login(emailAddress: String, password: String) {
         val loginDto = LoginDto(emailAddress, password)
 
-        HousingService
-            .login(loginDto)
-            .enqueue(object : Callback<AuthResponse> {
-                override fun onResponse(
-                    call: Call<AuthResponse>,
-                    response: Response<AuthResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        val authResponse = response.body()!!
+        CoroutineScope(Dispatchers.IO).launch {
+            HousingService
+                .login(loginDto)
+                .enqueue(object : Callback<AuthResponse> {
+                    override fun onResponse(
+                        call: Call<AuthResponse>,
+                        response: Response<AuthResponse>
+                    ) {
+                        if (response.isSuccessful) {
+                            val authResponse = response.body()!!
 
-                        authMessage.value = authResponse.message
-                        authError.value = false
-                        saveAuthInfo(authResponse)
-                    } else {
-                        val gson = Gson()
-                        val authResponse = gson.fromJson(
-                            response.errorBody()?.charStream(),
-                            AuthResponse::class.java
-                        )
+                            authMessage.postValue(authResponse.message)
+                            authError.postValue(false)
+                            saveAuthInfo(authResponse)
+                        } else {
+                            val gson = Gson()
+                            val authResponse = gson.fromJson(
+                                response.errorBody()?.charStream(),
+                                AuthResponse::class.java
+                            )
 
-                        authMessage.value = authResponse.message
-                        authError.value = true
+                            authMessage.postValue(authResponse.message)
+                            authError.postValue(true)
+                        }
                     }
-                }
 
-                override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
-                    authMessage.value = t.message
-                    authError.value = true
-                }
-            })
+                    override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
+                        authMessage.postValue(t.message)
+                        authError.postValue(true)
+                    }
+                })
+        }
     }
 
     fun register(
@@ -62,30 +67,38 @@ class AuthViewModel : ViewModel() {
     ) {
         val registerDto = RegisterDto(name, surname, phoneNumber, emailAddress, password)
 
-        HousingService
-            .register(registerDto)
-            .enqueue(object : Callback<AuthResponse> {
-                override fun onResponse(
-                    call: Call<AuthResponse>,
-                    response: Response<AuthResponse>
-                ) {
-                    val authResponse = response.body()!!
+        CoroutineScope(Dispatchers.IO).launch {
+            HousingService
+                .register(registerDto)
+                .enqueue(object : Callback<AuthResponse> {
+                    override fun onResponse(
+                        call: Call<AuthResponse>,
+                        response: Response<AuthResponse>
+                    ) {
+                        if (response.isSuccessful) {
+                            val authResponse = response.body()!!
 
-                    authMessage.value = authResponse.message
+                            authMessage.postValue(authResponse.message)
+                            authError.postValue(false)
+                            saveAuthInfo(authResponse)
+                        } else {
+                            val gson = Gson()
+                            val authResponse = gson.fromJson(
+                                response.errorBody()?.charStream(),
+                                AuthResponse::class.java
+                            )
 
-                    if (response.isSuccessful) {
-                        saveAuthInfo(authResponse)
-                        authError.value = false
-                    } else {
-                        authError.value = true
+                            authMessage.postValue(authResponse.message)
+                            authError.postValue(true)
+                        }
                     }
-                }
 
-                override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
-                    authMessage.value = t.message
-                    authError.value = true
-                }
-            })
+                    override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
+                        authMessage.postValue(t.message)
+                        authError.postValue(true)
+                    }
+                })
+        }
     }
 
     private fun saveAuthInfo(authResponse: AuthResponse) {

@@ -26,8 +26,8 @@ object HousingService {
     fun register(registerDto: RegisterDto): Call<AuthResponse> =
         housingServiceApi.register(registerDto)
 
-    fun findHouseCouncilById(id: String): Call<HouseCouncil> =
-        housingServiceApi.findHouseCouncilById(id)
+    fun joinHouseCouncil(houseCouncilId: String): Call<HouseCouncil> =
+        housingServiceApi.joinHouseCouncil(houseCouncilId)
 
     fun findAllAmenitiesByHouseCouncil(houseCouncilId: String): Call<MutableList<Amenity>> =
         housingServiceApi.findAllAmenitiesByHouseCouncil(houseCouncilId)

@@ -39,7 +39,7 @@ class LobbyFragment : Fragment() {
                     .makeText(activity, message, Toast.LENGTH_LONG)
                     .show()
             } else {
-                lobbyViewModel.findHouseCouncilById(id)
+                lobbyViewModel.joinHouseCouncil(id)
             }
         }
 

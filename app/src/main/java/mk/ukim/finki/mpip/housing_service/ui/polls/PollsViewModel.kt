@@ -23,7 +23,7 @@ class PollsViewModel : ViewModel() {
         CoroutineScope(Dispatchers.IO).launch {
             HousingService
                 .findAllPollsByHouseCouncil(
-                    localStorageService.getData("houseCouncilId", "").toString()
+                    localStorageService.getData("house-council", "").toString()
                 )
                 .enqueue(object : Callback<MutableList<Poll>> {
                     override fun onResponse(
