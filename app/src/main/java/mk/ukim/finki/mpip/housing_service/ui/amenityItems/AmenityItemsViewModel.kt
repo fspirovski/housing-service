@@ -1,59 +1,56 @@
-package mk.ukim.finki.mpip.housing_service.ui.auth.lobby
+package mk.ukim.finki.mpip.housing_service.ui.amenityItems
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import mk.ukim.finki.mpip.housing_service.domain.model.HouseCouncil
+import mk.ukim.finki.mpip.housing_service.domain.model.AmenityItem
+import mk.ukim.finki.mpip.housing_service.domain.model.AmenityItemStatus
 import mk.ukim.finki.mpip.housing_service.service.LocalStorageService
 import mk.ukim.finki.mpip.housing_service.service.rest.HousingService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class LobbyViewModel : ViewModel() {
+class AmenityItemsViewModel : ViewModel() {
 
     private val localStorageService = LocalStorageService()
+    val amenityItemsList = MutableLiveData<MutableList<AmenityItem>>()
     val responseMessage = MutableLiveData<String>()
     val responseError = MutableLiveData<Boolean>()
 
-    fun joinHouseCouncil(houseCouncilId: String) {
+    fun findAllAmenityItemsByResidentAndStatus(status: AmenityItemStatus?) {
         CoroutineScope(Dispatchers.IO).launch {
             HousingService
-                .joinHouseCouncil(houseCouncilId)
-                .enqueue(object : Callback<HouseCouncil> {
+                .findAllAmenityItemsByResidentAndStatus(
+                    localStorageService.getData(
+                        "residentId",
+                        ""
+                    ).toString(), status
+                )
+                .enqueue(object : Callback<MutableList<AmenityItem>> {
                     override fun onResponse(
-                        call: Call<HouseCouncil>,
-                        response: Response<HouseCouncil>
+                        call: Call<MutableList<AmenityItem>>,
+                        response: Response<MutableList<AmenityItem>>
                     ) {
                         if (response.isSuccessful) {
-                            val houseCouncil = response.body()!!
+                            val amenityItems = response.body()!!
 
-                            responseMessage.postValue("Welcome!")
+                            amenityItemsList.postValue(amenityItems)
                             responseError.postValue(false)
-                            saveHouseCouncilInfo(houseCouncil)
                         } else {
-//                        val gson = Gson()
-//
-//                        responseMessage.value = gson.fromJson(
-//                            response.errorBody()?.charStream(),
-//                            String::class.java
-//                        )
                             responseMessage.postValue("An error occurred! Error ${response.code()}.")
                             responseError.postValue(true)
                         }
                     }
 
-                    override fun onFailure(call: Call<HouseCouncil>, t: Throwable) {
+                    override fun onFailure(call: Call<MutableList<AmenityItem>>, t: Throwable) {
                         responseMessage.postValue(t.message)
                         responseError.postValue(true)
                     }
                 })
         }
-    }
 
-    private fun saveHouseCouncilInfo(houseCouncil: HouseCouncil) {
-        localStorageService.saveData("house-council", houseCouncil.id)
     }
 }

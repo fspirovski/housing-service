@@ -1,59 +1,52 @@
-package mk.ukim.finki.mpip.housing_service.ui.auth.lobby
+package mk.ukim.finki.mpip.housing_service.ui.polls
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import mk.ukim.finki.mpip.housing_service.domain.model.HouseCouncil
+import mk.ukim.finki.mpip.housing_service.domain.model.Poll
 import mk.ukim.finki.mpip.housing_service.service.LocalStorageService
 import mk.ukim.finki.mpip.housing_service.service.rest.HousingService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class LobbyViewModel : ViewModel() {
+class PollsViewModel : ViewModel() {
 
     private val localStorageService = LocalStorageService()
+    val pollsList = MutableLiveData<MutableList<Poll>>()
     val responseMessage = MutableLiveData<String>()
     val responseError = MutableLiveData<Boolean>()
 
-    fun joinHouseCouncil(houseCouncilId: String) {
+    fun findAllPollsByHouseCouncil() {
         CoroutineScope(Dispatchers.IO).launch {
             HousingService
-                .joinHouseCouncil(houseCouncilId)
-                .enqueue(object : Callback<HouseCouncil> {
+                .findAllPollsByHouseCouncil(
+                    localStorageService.getData("house-council", "").toString()
+                )
+                .enqueue(object : Callback<MutableList<Poll>> {
                     override fun onResponse(
-                        call: Call<HouseCouncil>,
-                        response: Response<HouseCouncil>
+                        call: Call<MutableList<Poll>>,
+                        response: Response<MutableList<Poll>>
                     ) {
                         if (response.isSuccessful) {
-                            val houseCouncil = response.body()!!
+                            val polls = response.body()!!
 
-                            responseMessage.postValue("Welcome!")
+                            pollsList.postValue(polls)
                             responseError.postValue(false)
-                            saveHouseCouncilInfo(houseCouncil)
                         } else {
-//                        val gson = Gson()
-//
-//                        responseMessage.value = gson.fromJson(
-//                            response.errorBody()?.charStream(),
-//                            String::class.java
-//                        )
                             responseMessage.postValue("An error occurred! Error ${response.code()}.")
                             responseError.postValue(true)
                         }
                     }
 
-                    override fun onFailure(call: Call<HouseCouncil>, t: Throwable) {
+                    override fun onFailure(call: Call<MutableList<Poll>>, t: Throwable) {
                         responseMessage.postValue(t.message)
                         responseError.postValue(true)
                     }
                 })
         }
-    }
 
-    private fun saveHouseCouncilInfo(houseCouncil: HouseCouncil) {
-        localStorageService.saveData("house-council", houseCouncil.id)
     }
 }
