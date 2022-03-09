@@ -29,6 +29,9 @@ object HousingService {
     fun joinHouseCouncil(houseCouncilId: String): Call<HouseCouncil> =
         housingServiceApi.joinHouseCouncil(houseCouncilId)
 
+    fun registerHouseCouncil(houseCouncilDto: HouseCouncil): Call<HouseCouncil> =
+        housingServiceApi.registerHouseCouncil(houseCouncilDto)
+
     fun findAllAmenitiesByHouseCouncil(houseCouncilId: String): Call<MutableList<Amenity>> =
         housingServiceApi.findAllAmenitiesByHouseCouncil(houseCouncilId)
 

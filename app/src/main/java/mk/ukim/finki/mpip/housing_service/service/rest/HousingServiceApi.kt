@@ -3,10 +3,6 @@ package mk.ukim.finki.mpip.housing_service.service.rest
 import mk.ukim.finki.mpip.housing_service.domain.dto.*
 import mk.ukim.finki.mpip.housing_service.domain.model.*
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.POST
-import retrofit2.http.PUT
-import retrofit2.http.Path
 import retrofit2.http.*
 
 interface HousingServiceApi {
@@ -19,6 +15,10 @@ interface HousingServiceApi {
 
     @PUT("api/house-councils/{houseCouncilId}/join")
     fun joinHouseCouncil(@Path("houseCouncilId") houseCouncilId: String): Call<HouseCouncil>
+
+    @POST("api/house-councils/register")
+    fun registerHouseCouncil(@Body houseCouncilDto: HouseCouncil): Call<HouseCouncil>
+
     @GET("api/house-councils/{id}")
     fun findHouseCouncilById(@Path("id") id: String): Call<HouseCouncil>
 

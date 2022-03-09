@@ -27,6 +27,8 @@ class LobbyFragment : Fragment() {
 
         val houseCouncilId: EditText = view.findViewById(R.id.houseCouncilId)
         val joinHouseCouncilButton: Button = view.findViewById(R.id.joinHouseCouncilButton)
+        val houseCouncilAddressOfResidence: EditText =
+            view.findViewById(R.id.houseCouncilAddressOfResidence)
         val registerHouseCouncilButton: Button = view.findViewById(R.id.registerHouseCouncilButton)
 
         joinHouseCouncilButton.setOnClickListener {
@@ -43,6 +45,20 @@ class LobbyFragment : Fragment() {
             }
         }
 
+        registerHouseCouncilButton.setOnClickListener {
+            val addressOfResidence = houseCouncilAddressOfResidence.text.toString().trim()
+
+            if (addressOfResidence.isEmpty() || addressOfResidence.isBlank()) {
+                val message = "The 'address' field is required."
+
+                Toast
+                    .makeText(activity, message, Toast.LENGTH_LONG)
+                    .show()
+            } else {
+                lobbyViewModel.registerHouseCouncil(addressOfResidence)
+            }
+        }
+
         lobbyViewModel.responseMessage.observe(this, {
             Toast
                 .makeText(activity, it, Toast.LENGTH_LONG)
@@ -54,10 +70,6 @@ class LobbyFragment : Fragment() {
                 redirectToMainActivity()
             }
         })
-
-        registerHouseCouncilButton.setOnClickListener {
-            TODO("Navigate to a new activity.")
-        }
 
         return view;
     }
