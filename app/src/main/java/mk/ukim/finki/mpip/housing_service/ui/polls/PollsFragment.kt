@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import mk.ukim.finki.mpip.housing_service.R
-import mk.ukim.finki.mpip.housing_service.ui.polls.adapter.PollAdapter
 
 class PollsFragment : Fragment() {
 
@@ -21,19 +23,35 @@ class PollsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        pollsViewModel =
-            ViewModelProvider(this).get(PollsViewModel::class.java)
+        val view = inflater.inflate(R.layout.fragment_polls, container, false)
 
-        return inflater.inflate(R.layout.fragment_polls, container, false)
+        pollsViewModel =
+            ViewModelProvider(this)[PollsViewModel::class.java]
+        pollsRecyclerView = view.findViewById(R.id.pollsRecyclerView)
+
+        val pollAdapter = PollAdapter(mutableListOf())
+        pollAdapter.onItemClick = {
+            PollsFragmentDirections.actionPollsToPollDetailsFragment(it)
+        }
+
+        pollsRecyclerView.adapter = pollAdapter
+        pollsRecyclerView.layoutManager = LinearLayoutManager(activity)
+        pollsRecyclerView.setHasFixedSize(true)
+
+        pollsViewModel.responseMessage.observe(viewLifecycleOwner, {
+            Toast
+                .makeText(activity, it, Toast.LENGTH_LONG)
+                .show()
+        })
+        pollsViewModel.pollsList.observe(viewLifecycleOwner, {
+            pollAdapter.updatePolls(it)
+        })
+
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        pollsRecyclerView = view.findViewById(R.id.pollsRecyclerView)
-        pollsRecyclerView.layoutManager = LinearLayoutManager(activity)
-        pollsRecyclerView.setHasFixedSize(true)
-        pollsRecyclerView.adapter = PollAdapter(mutableListOf())
 
         pollsViewModel.findAllPollsByHouseCouncil()
     }
