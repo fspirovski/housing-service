@@ -17,7 +17,6 @@ class AmenitiesViewModel : ViewModel() {
     private val localStorageService = LocalStorageService()
     val amenitiesList = MutableLiveData<MutableList<Amenity>>()
     val responseMessage = MutableLiveData<String>()
-    val responseError = MutableLiveData<Boolean>()
 
     fun findAllAmenitiesByHouseCouncil() {
         CoroutineScope(Dispatchers.IO).launch {
@@ -34,19 +33,15 @@ class AmenitiesViewModel : ViewModel() {
                             val amenities = response.body()!!
 
                             amenitiesList.postValue(amenities)
-                            responseError.postValue(false)
                         } else {
                             responseMessage.postValue("An error occurred! Error ${response.code()}.")
-                            responseError.postValue(true)
                         }
                     }
 
                     override fun onFailure(call: Call<MutableList<Amenity>>, t: Throwable) {
                         responseMessage.postValue(t.message)
-                        responseError.postValue(true)
                     }
                 })
         }
-
     }
 }

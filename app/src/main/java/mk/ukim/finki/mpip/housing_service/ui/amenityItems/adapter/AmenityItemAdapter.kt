@@ -7,7 +7,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import mk.ukim.finki.mpip.housing_service.R
 import mk.ukim.finki.mpip.housing_service.domain.model.AmenityItem
-import mk.ukim.finki.mpip.housing_service.ui.amenities.adapter.AmenityAdapter
 
 class AmenityItemAdapter(var amenityItems: MutableList<AmenityItem>) :
     RecyclerView.Adapter<AmenityItemAdapter.ViewHolder>() {
