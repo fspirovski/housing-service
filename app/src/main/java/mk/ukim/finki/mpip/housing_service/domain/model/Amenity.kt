@@ -1,5 +1,6 @@
 package mk.ukim.finki.mpip.housing_service.domain.model
 
+import java.io.Serializable
 import java.time.LocalDateTime
 
 data class Amenity(
@@ -9,5 +10,7 @@ data class Amenity(
     val amount: String,
     val createdAt: LocalDateTime,
     val status: AmenityStatus,
-//    val houseCouncil: HouseCouncil
-)
+    val houseCouncil: HouseCouncil
+): Serializable {
+
+}

@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,7 +33,9 @@ class AmenityItemsFragment : Fragment() {
 
         val amenityItemsAdapter = AmenityItemAdapter(mutableListOf())
         amenityItemsAdapter.onItemClick = {
-            AmenityItemsFragmentDirections.actionAmenityItemsToAmenityItemDetailsFragment(it)
+            view.findNavController().navigate(
+                AmenityItemsFragmentDirections.actionAmenityItemsToAmenityItemDetailsFragment(it)
+            )
         }
 
         amenityItemsRecyclerView.adapter = amenityItemsAdapter

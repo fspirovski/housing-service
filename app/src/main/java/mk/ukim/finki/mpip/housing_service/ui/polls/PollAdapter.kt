@@ -26,8 +26,8 @@ class PollAdapter(var pollsList: List<Poll>) : RecyclerView.Adapter<PollAdapter.
 
         fun populateViewHolder(poll: Poll) {
             id.text = poll.id
-            adminCandidate.text = poll.adminCandidate.name
-            amenityTitle.text = poll.amenityCandidate.title
+            adminCandidate.text = poll.adminCandidate?.name ?: ""
+            amenityTitle.text = poll.amenityCandidate?.title ?: ""
         }
     }
 

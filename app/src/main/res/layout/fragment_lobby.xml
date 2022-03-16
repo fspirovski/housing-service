@@ -36,11 +36,26 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.150" />
 
+    <EditText
+        android:id="@+id/houseCouncilAddressOfResidence"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:hint="Register a new house council by entering its address"
+        android:inputType="textPersonName"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.500"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.150"
+        tools:ignore="TextContrastCheck" />
+
     <Button
         android:id="@+id/registerHouseCouncilButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register a new house council"
+        android:text="Register"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

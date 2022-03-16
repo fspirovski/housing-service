@@ -34,12 +34,37 @@ class LobbyViewModel : ViewModel() {
                             responseError.postValue(false)
                             saveHouseCouncilInfo(houseCouncil)
                         } else {
-//                        val gson = Gson()
-//
-//                        responseMessage.value = gson.fromJson(
-//                            response.errorBody()?.charStream(),
-//                            String::class.java
-//                        )
+                            responseMessage.postValue("An error occurred! Error ${response.code()}.")
+                            responseError.postValue(true)
+                        }
+                    }
+
+                    override fun onFailure(call: Call<HouseCouncil>, t: Throwable) {
+                        responseMessage.postValue(t.message)
+                        responseError.postValue(true)
+                    }
+                })
+        }
+    }
+
+    fun registerHouseCouncil(addressOfResidence: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val houseCouncil = HouseCouncil(null, addressOfResidence, null, setOf())
+
+            HousingService
+                .registerHouseCouncil(houseCouncil)
+                .enqueue(object : Callback<HouseCouncil> {
+                    override fun onResponse(
+                        call: Call<HouseCouncil>,
+                        response: Response<HouseCouncil>
+                    ) {
+                        if (response.isSuccessful) {
+                            val houseCouncil = response.body()!!
+
+                            responseMessage.postValue("Welcome!")
+                            responseError.postValue(false)
+                            saveHouseCouncilInfo(houseCouncil)
+                        } else {
                             responseMessage.postValue("An error occurred! Error ${response.code()}.")
                             responseError.postValue(true)
                         }

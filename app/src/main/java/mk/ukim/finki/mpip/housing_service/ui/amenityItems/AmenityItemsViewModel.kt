@@ -1,5 +1,6 @@
 package mk.ukim.finki.mpip.housing_service.ui.amenityItems
 
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
@@ -26,12 +27,7 @@ class AmenityItemsViewModel : ViewModel() {
         CoroutineScope(Dispatchers.IO).launch {
             HousingService
                 .findAllAmenityItemsByResidentAndStatus(
-                    Gson().fromJson(
-                        localStorageService.getData(
-                            "current-user",
-                            ""
-                        ).toString(), User::class.java
-                    ).id, status
+                    localStorageService.getData("current-user-id", "").toString(), AmenityItemStatus.PENDING
                 )
                 .enqueue(object : Callback<MutableList<AmenityItem>> {
                     override fun onResponse(

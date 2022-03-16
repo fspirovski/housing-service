@@ -1,21 +1,17 @@
 package mk.ukim.finki.mpip.housing_service.ui.amenities
 
-import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import mk.ukim.finki.mpip.housing_service.R
 import mk.ukim.finki.mpip.housing_service.domain.model.Amenity
-import mk.ukim.finki.mpip.housing_service.domain.model.AmenityStatus
-import mk.ukim.finki.mpip.housing_service.domain.model.HouseCouncil
-import mk.ukim.finki.mpip.housing_service.ui.amenities.adapter.AmenityAdapter
-import java.time.LocalDateTime
 
 class AmenitiesFragment : Fragment() {
 
@@ -27,34 +23,37 @@ class AmenitiesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        amenitiesViewModel =
-            ViewModelProvider(this).get(AmenitiesViewModel::class.java)
+        val view = inflater.inflate(R.layout.fragment_amenities, container, false)
 
-        return inflater.inflate(R.layout.fragment_amenities, container, false)
+        amenitiesViewModel = ViewModelProvider(this)[AmenitiesViewModel::class.java]
+        amenitiesRecyclerView = view.findViewById(R.id.amenitiesRecyclerView)
+
+        val amenitiesAdapter = AmenitiesAdapter(mutableListOf())
+        amenitiesAdapter.onItemClick = { amenity -> openDialog(amenity) }
+
+        amenitiesRecyclerView.adapter = amenitiesAdapter
+        amenitiesRecyclerView.layoutManager = LinearLayoutManager(activity)
+        amenitiesRecyclerView.setHasFixedSize(true)
+
+        amenitiesViewModel.responseMessage.observe(viewLifecycleOwner, {
+            Toast
+                .makeText(activity, it, Toast.LENGTH_LONG)
+                .show()
+        })
+        amenitiesViewModel.amenitiesList.observe(viewLifecycleOwner, {
+            amenitiesAdapter.updateAmenities(it)
+        })
+
+        return view
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        amenitiesRecyclerView = view.findViewById(R.id.amenitiesRecyclerView)
-        amenitiesRecyclerView.layoutManager = LinearLayoutManager(activity)
-        amenitiesRecyclerView.setHasFixedSize(true)
-        amenitiesRecyclerView.adapter = AmenityAdapter(mutableListOf())
-
         amenitiesViewModel.findAllAmenitiesByHouseCouncil()
+    }
 
-        val list = mutableListOf<Amenity>()
-        list.add(
-            Amenity(
-                "1",
-                "Title",
-                "Desc",
-                "2000",
-                LocalDateTime.now(),
-                AmenityStatus.APPROVED,
-            )
-        )
-
+    private fun openDialog(amenity: Amenity) {
+        Log.d(Log.INFO.toString(), "openDialog called.")
     }
 }

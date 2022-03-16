@@ -1,5 +1,7 @@
 package mk.ukim.finki.mpip.housing_service.service.rest
 
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonDeserializer
 import mk.ukim.finki.mpip.housing_service.domain.dto.*
 import mk.ukim.finki.mpip.housing_service.domain.model.*
 import mk.ukim.finki.mpip.housing_service.service.AuthInterceptor
@@ -7,6 +9,8 @@ import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 object HousingService {
 
@@ -14,10 +18,19 @@ object HousingService {
     private val client = OkHttpClient.Builder()
         .addInterceptor(AuthInterceptor())
         .build()
+    private val gson = GsonBuilder()
+        .registerTypeAdapter(
+            LocalDateTime::class.java,
+            JsonDeserializer { json, _, _ ->
+                LocalDateTime.parse(
+                    json.asString,
+                    DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
+                )
+            }).create()
     private val housingServiceApi = Retrofit.Builder()
         .client(client)
         .baseUrl(baseUrl)
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
         .create(HousingServiceApi::class.java)
 
@@ -28,6 +41,9 @@ object HousingService {
 
     fun joinHouseCouncil(houseCouncilId: String): Call<HouseCouncil> =
         housingServiceApi.joinHouseCouncil(houseCouncilId)
+
+    fun registerHouseCouncil(houseCouncilDto: HouseCouncil): Call<HouseCouncil> =
+        housingServiceApi.registerHouseCouncil(houseCouncilDto)
 
     fun findAllAmenitiesByHouseCouncil(houseCouncilId: String): Call<MutableList<Amenity>> =
         housingServiceApi.findAllAmenitiesByHouseCouncil(houseCouncilId)
