@@ -15,11 +15,39 @@
         android:id="@+id/navigation_dashboard"
         android:name="mk.ukim.finki.mpip.housing_service.ui.amenityItems.AmenityItemsFragment"
         android:label="@string/title_amenity_items"
-        tools:layout="@layout/fragment_amenity_items" />
+        tools:layout="@layout/fragment_amenity_items" >
+        <action
+            android:id="@+id/action_amenityItems_to_amenityItemDetailsFragment"
+            app:destination="@id/amenityItemDetailsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="mk.ukim.finki.mpip.housing_service.ui.polls.PollsFragment"
         android:label="@string/title_polls"
-        tools:layout="@layout/fragment_polls" />
+        tools:layout="@layout/fragment_polls" >
+        <action
+            android:id="@+id/action_polls_to_pollDetailsFragment"
+            app:destination="@id/pollDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/amenityItemDetailsFragment"
+        android:name="mk.ukim.finki.mpip.housing_service.ui.amenityItemDetails.AmenityItemDetailsFragment"
+        android:label="amenity_item_details_fragment"
+        tools:layout="@layout/amenity_item_details_fragment" >
+        <argument
+            android:name="amenityItem"
+            app:argType="mk.ukim.finki.mpip.housing_service.domain.model.AmenityItem"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/pollDetailsFragment"
+        android:name="mk.ukim.finki.mpip.housing_service.ui.pollDetails.PollDetailsFragment"
+        android:label="poll_details_fragment"
+        tools:layout="@layout/poll_details_fragment" >
+        <argument
+            android:name="poll"
+            app:argType="mk.ukim.finki.mpip.housing_service.domain.model.Poll"
+            app:nullable="true" />
+    </fragment>
 </navigation>

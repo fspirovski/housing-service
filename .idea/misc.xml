@@ -8,6 +8,22 @@
         <entry key="..\:/Fakultet/7-mi semestar/Mobilni platformi i programiranje/Proekt/housing-service/app/src/main/res/layout/fragment_house_council.xml" value="0.1" />
         <entry key="..\:/Fakultet/7-mi semestar/Mobilni platformi i programiranje/Proekt/housing-service/app/src/main/res/layout/fragment_lobby.xml" value="0.33" />
         <entry key="..\:/Fakultet/7-mi semestar/Mobilni platformi i programiranje/Proekt/housing-service/app/src/main/res/layout/fragment_login.xml" value="0.22" />
+        <entry key="app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.31302083333333336" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.296195652173913" />
+        <entry key="app/src/main/res/layout/amenity_details_fragment.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/amenity_item_details_fragment.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/amenity_item_row.xml" value="0.175" />
+        <entry key="app/src/main/res/layout/amenity_row.xml" value="0.2652194234108237" />
+        <entry key="app/src/main/res/layout/fragment_amenities.xml" value="0.18905292081031308" />
+        <entry key="app/src/main/res/layout/fragment_amenity_items.xml" value="0.18854166666666666" />
+        <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.296195652173913" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.296195652173913" />
+        <entry key="app/src/main/res/layout/fragment_lobby.xml" value="0.18854166666666666" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.28072916666666664" />
+        <entry key="app/src/main/res/layout/fragment_polls.xml" value="0.18854166666666666" />
+        <entry key="app/src/main/res/layout/poll_details_fragment.xml" value="0.37604166666666666" />
+        <entry key="app/src/main/res/layout/poll_row.xml" value="0.1852355072463768" />
+        <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.37604166666666666" />
       </map>
     </option>
   </component>
