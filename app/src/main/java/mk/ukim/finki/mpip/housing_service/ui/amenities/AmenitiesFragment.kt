@@ -1,7 +1,6 @@
 package mk.ukim.finki.mpip.housing_service.ui.amenities
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,6 +53,8 @@ class AmenitiesFragment : Fragment() {
     }
 
     private fun openDialog(amenity: Amenity) {
-        Log.d(Log.INFO.toString(), "openDialog called.")
+        val dialog = AmenityDialog(amenity)
+
+        dialog.show(childFragmentManager, "Amenity details dialog")
     }
 }

@@ -3,21 +3,23 @@ package mk.ukim.finki.mpip.housing_service.ui.amenities
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import mk.ukim.finki.mpip.housing_service.R
 import mk.ukim.finki.mpip.housing_service.domain.model.Amenity
+import mk.ukim.finki.mpip.housing_service.domain.model.AmenityStatus
 
 class AmenitiesAdapter(var amenitiesList: List<Amenity>) :
     RecyclerView.Adapter<AmenitiesAdapter.ViewHolder>() {
 
     var onItemClick: ((Amenity) -> Unit)? = null
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val id: TextView = view.findViewById(R.id.amenityID)
-        private val title: TextView = view.findViewById(R.id.amenityTitle)
-        private val description: TextView = view.findViewById(R.id.amenityDescription)
-        private val amount: TextView = view.findViewById(R.id.amenityAmount)
+    inner class ViewHolder(view: View, private val images: IntArray) :
+        RecyclerView.ViewHolder(view) {
+        private val amenityTitle: TextView = view.findViewById(R.id.amenityTitle)
+        private val amenityDescription: TextView = view.findViewById(R.id.amenityDescription)
+        private val amenityStatus: ImageView = view.findViewById(R.id.amenityStatus)
 
         init {
             view.setOnClickListener {
@@ -26,17 +28,25 @@ class AmenitiesAdapter(var amenitiesList: List<Amenity>) :
         }
 
         fun populateViewHolder(amenity: Amenity) {
-            id.text = amenity.id
-            title.text = amenity.title
-            description.text = amenity.description
-            amount.text = amenity.amount
+            val title = "${adapterPosition + 1}. ${amenity.title}"
+            val description = "${amenity.description}"
+            val status = when (amenity.status) {
+                AmenityStatus.PENDING -> images[0]
+                AmenityStatus.APPROVED -> images[1]
+                AmenityStatus.REJECTED -> images[2]
+            }
+
+            amenityTitle.text = title
+            amenityDescription.text = description
+            amenityStatus.setImageResource(status)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.amenity_row, parent, false)
+        val images = intArrayOf(R.drawable.pending, R.drawable.approved, R.drawable.rejected)
 
-        return ViewHolder(view)
+        return ViewHolder(view, images)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
