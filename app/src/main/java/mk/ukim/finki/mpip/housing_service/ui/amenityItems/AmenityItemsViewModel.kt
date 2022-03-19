@@ -1,12 +1,15 @@
 package mk.ukim.finki.mpip.housing_service.ui.amenityItems
 
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import mk.ukim.finki.mpip.housing_service.domain.model.AmenityItem
 import mk.ukim.finki.mpip.housing_service.domain.model.AmenityItemStatus
+import mk.ukim.finki.mpip.housing_service.domain.model.User
 import mk.ukim.finki.mpip.housing_service.service.LocalStorageService
 import mk.ukim.finki.mpip.housing_service.service.rest.HousingService
 import retrofit2.Call
@@ -24,10 +27,7 @@ class AmenityItemsViewModel : ViewModel() {
         CoroutineScope(Dispatchers.IO).launch {
             HousingService
                 .findAllAmenityItemsByResidentAndStatus(
-                    localStorageService.getData(
-                        "residentId",
-                        ""
-                    ).toString(), status
+                    localStorageService.getData("current-user-id", "").toString(), AmenityItemStatus.PENDING
                 )
                 .enqueue(object : Callback<MutableList<AmenityItem>> {
                     override fun onResponse(

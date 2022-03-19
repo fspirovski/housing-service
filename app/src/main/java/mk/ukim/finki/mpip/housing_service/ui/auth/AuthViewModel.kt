@@ -103,6 +103,7 @@ class AuthViewModel : ViewModel() {
 
     private fun saveAuthInfo(authResponse: AuthResponse) {
         localStorageService.saveData("current-user", authResponse.currentUser!!.toString())
+        localStorageService.saveData("current-user-id", authResponse.currentUser.id)
         localStorageService.saveData("jwt", authResponse.jwt!!)
     }
 }
