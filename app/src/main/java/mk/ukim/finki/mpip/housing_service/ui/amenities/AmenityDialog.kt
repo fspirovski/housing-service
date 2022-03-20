@@ -20,7 +20,7 @@ class AmenityDialog(val amenity: Amenity) : AppCompatDialogFragment() {
         val status: TextView? = view?.findViewById(R.id.amenityDetailsStatus)
 
         title?.text = amenity.title
-        description?.text = "\"${amenity.description}\""
+        description?.text = "Description: \"${amenity.description}\""
         amount?.text = "Amount to pay: ${amenity.amount}"
         status?.text = "Current status: ${amenity.status}"
 

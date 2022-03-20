@@ -18,7 +18,8 @@ class AmenitiesAdapter(var amenitiesList: List<Amenity>) :
     inner class ViewHolder(view: View, private val images: IntArray) :
         RecyclerView.ViewHolder(view) {
         private val amenityTitle: TextView = view.findViewById(R.id.amenityTitle)
-        private val amenityDescription: TextView = view.findViewById(R.id.amenityDescription)
+
+        //        private val amenityDescription: TextView = view.findViewById(R.id.amenityDescription)
         private val amenityStatus: ImageView = view.findViewById(R.id.amenityStatus)
 
         init {
@@ -29,7 +30,7 @@ class AmenitiesAdapter(var amenitiesList: List<Amenity>) :
 
         fun populateViewHolder(amenity: Amenity) {
             val title = "${adapterPosition + 1}. ${amenity.title}"
-            val description = "${amenity.description}"
+//            val description = "${amenity.description}"
             val status = when (amenity.status) {
                 AmenityStatus.PENDING -> images[0]
                 AmenityStatus.APPROVED -> images[1]
@@ -37,7 +38,7 @@ class AmenitiesAdapter(var amenitiesList: List<Amenity>) :
             }
 
             amenityTitle.text = title
-            amenityDescription.text = description
+//            amenityDescription.text = description
             amenityStatus.setImageResource(status)
         }
     }

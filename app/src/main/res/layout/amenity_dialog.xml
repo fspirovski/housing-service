@@ -3,7 +3,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:padding="30dp">
+    android:paddingHorizontal="30dp"
+    android:paddingTop="20dp">
 
     <TextView
         android:id="@+id/amenityDetailsTitle"
@@ -11,18 +12,28 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
         android:text="Title"
         android:textSize="14sp"
         android:textStyle="bold" />
+
+    <View
+        android:id="@+id/amenityDetailsSeparator"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_below="@id/amenityDetailsTitle"
+        android:layout_alignLeft="@id/amenityDetailsTitle"
+        android:layout_alignRight="@id/amenityDetailsTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="#FF6200EE" />
 
     <TextView
         android:id="@+id/amenityDetailsDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/amenityDetailsTitle"
+        android:layout_below="@id/amenityDetailsSeparator"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:text="Description"
         android:textSize="14sp" />
 
@@ -32,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/amenityDetailsDescription"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:text="Amount"
         android:textSize="14sp" />
 
@@ -42,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/amenityDetailsAmount"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:text="Status"
         android:textSize="14sp" />
 </RelativeLayout>
