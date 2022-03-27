@@ -38,14 +38,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <!--            <TextView-->
-            <!--                android:id="@+id/amenityDescription"-->
-            <!--                android:layout_width="330dp"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:text="Description"-->
-            <!--                android:textSize="14sp"-->
-            <!--                app:layout_constraintStart_toStartOf="@+id/amenityTitle"-->
-            <!--                app:layout_constraintTop_toBottomOf="@+id/amenityTitle" />-->
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

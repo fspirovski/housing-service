@@ -9,10 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import mk.ukim.finki.mpip.housing_service.R
 import mk.ukim.finki.mpip.housing_service.domain.model.Amenity
 
-class AmenitiesFragment : Fragment() {
+class AmenitiesFragment : Fragment(), NewAmenityDialog.NewAmenityDialogListener {
 
     private lateinit var amenitiesViewModel: AmenitiesViewModel
     private lateinit var amenitiesRecyclerView: RecyclerView
@@ -23,12 +24,13 @@ class AmenitiesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_amenities, container, false)
+        val newAmenityButton: FloatingActionButton = view.findViewById(R.id.newAmenityButton)
 
         amenitiesViewModel = ViewModelProvider(this)[AmenitiesViewModel::class.java]
         amenitiesRecyclerView = view.findViewById(R.id.amenitiesRecyclerView)
 
         val amenitiesAdapter = AmenitiesAdapter(mutableListOf())
-        amenitiesAdapter.onItemClick = { amenity -> openDialog(amenity) }
+        amenitiesAdapter.onItemClick = { openAmenityDetailsDialog(it) }
 
         amenitiesRecyclerView.adapter = amenitiesAdapter
         amenitiesRecyclerView.layoutManager = LinearLayoutManager(activity)
@@ -43,6 +45,8 @@ class AmenitiesFragment : Fragment() {
             amenitiesAdapter.updateAmenities(it)
         })
 
+        newAmenityButton.setOnClickListener { openNewAmenityDialog() }
+
         return view
     }
 
@@ -52,9 +56,20 @@ class AmenitiesFragment : Fragment() {
         amenitiesViewModel.findAllAmenitiesByHouseCouncil()
     }
 
-    private fun openDialog(amenity: Amenity) {
-        val dialog = AmenityDialog(amenity)
+    private fun openAmenityDetailsDialog(amenity: Amenity) {
+        val dialog = AmenityDetailsDialog(amenity)
 
         dialog.show(childFragmentManager, "Amenity details dialog")
+    }
+
+    private fun openNewAmenityDialog() {
+        val dialog = NewAmenityDialog()
+
+        dialog.setNewAmenityDialogListener(this)
+        dialog.show(childFragmentManager, "New amenity dialog")
+    }
+
+    override fun saveUserInput(title: String, description: String, amount: Double) {
+        amenitiesViewModel.createAmenity(title, description, amount)
     }
 }

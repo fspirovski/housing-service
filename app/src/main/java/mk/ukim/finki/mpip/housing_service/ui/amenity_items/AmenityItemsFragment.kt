@@ -1,21 +1,18 @@
-package mk.ukim.finki.mpip.housing_service.ui.amenityItems
+package mk.ukim.finki.mpip.housing_service.ui.amenity_items
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import mk.ukim.finki.mpip.housing_service.R
-import mk.ukim.finki.mpip.housing_service.domain.model.AmenityItemStatus
+import mk.ukim.finki.mpip.housing_service.domain.model.AmenityItem
 
-class AmenityItemsFragment : Fragment() {
+class AmenityItemsFragment : Fragment(), AmenityItemDetailsDialog.AmenityItemDetailsDialogListener {
 
     private lateinit var amenityItemsViewModel: AmenityItemsViewModel
     private lateinit var amenityItemsRecyclerView: RecyclerView
@@ -31,12 +28,8 @@ class AmenityItemsFragment : Fragment() {
             ViewModelProvider(this)[AmenityItemsViewModel::class.java]
         amenityItemsRecyclerView = view.findViewById(R.id.amenityItemsRecyclerView)
 
-        val amenityItemsAdapter = AmenityItemAdapter(mutableListOf())
-        amenityItemsAdapter.onItemClick = {
-            view.findNavController().navigate(
-                AmenityItemsFragmentDirections.actionAmenityItemsToAmenityItemDetailsFragment(it)
-            )
-        }
+        val amenityItemsAdapter = AmenityItemsAdapter(mutableListOf())
+        amenityItemsAdapter.onItemClick = { openAmenityItemDetailsDialog(it) }
 
         amenityItemsRecyclerView.adapter = amenityItemsAdapter
         amenityItemsRecyclerView.layoutManager = LinearLayoutManager(activity)
@@ -57,7 +50,17 @@ class AmenityItemsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        amenityItemsViewModel.findAllAmenityItemsByResidentAndStatus(AmenityItemStatus.PENDING)
+        amenityItemsViewModel.findAllAmenityItemsByResident()
     }
 
+    private fun openAmenityItemDetailsDialog(amenityItem: AmenityItem) {
+        val dialog = AmenityItemDetailsDialog(amenityItem)
+
+        dialog.setAmenityItemDetailsDialogListener(this)
+        dialog.show(childFragmentManager, "Amenity item details dialog")
+    }
+
+    override fun saveConfirmationOfPayment(URL: String) {
+        TODO("Not yet implemented")
+    }
 }

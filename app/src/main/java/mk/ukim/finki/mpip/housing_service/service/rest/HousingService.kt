@@ -69,7 +69,7 @@ object HousingService {
 
     fun findAllAmenityItemsByResidentAndStatus(
         residentId: String,
-        status: AmenityItemStatus?
+        status: AmenityItemStatus
     ): Call<MutableList<AmenityItem>> =
         housingServiceApi.findAllAmenityItemsByResidentAndStatus(residentId, status)
 

@@ -11,6 +11,4 @@ data class Amenity(
     val createdAt: LocalDateTime,
     val status: AmenityStatus,
     val houseCouncil: HouseCouncil
-): Serializable {
-
-}
+) : Serializable

@@ -49,7 +49,7 @@ interface HousingServiceApi {
     @GET("api/amenity-items/{residentId}/{status}/by-resident-and-status")
     fun findAllAmenityItemsByResidentAndStatus(
         @Path("residentId") residentId: String,
-        @Path("status") status: AmenityItemStatus?
+        @Path("status") status: AmenityItemStatus
     ): Call<MutableList<AmenityItem>>
 
     @GET("api/amenity-items/{id}")
