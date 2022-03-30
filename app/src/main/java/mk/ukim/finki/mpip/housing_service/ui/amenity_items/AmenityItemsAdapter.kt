@@ -31,17 +31,18 @@ class AmenityItemsAdapter(var amenityItemsList: List<AmenityItem>) :
             val status = when (amenityItem.status) {
                 AmenityItemStatus.PENDING -> images[0]
                 AmenityItemStatus.PAID -> images[1]
+                AmenityItemStatus.ALL -> null
             }
 
             amenityItemTitle.text = title
-            amenityItemStatus.setImageResource(status)
+            amenityItemStatus.setImageResource(status!!)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.amenity_item_row, parent, false)
-        val images = intArrayOf(R.drawable.pending, R.drawable.paid)
+        val images = intArrayOf(R.drawable.pending, R.drawable.money)
 
         return ViewHolder(view, images)
     }

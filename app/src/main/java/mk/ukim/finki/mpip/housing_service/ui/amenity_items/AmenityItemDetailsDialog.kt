@@ -3,10 +3,13 @@ package mk.ukim.finki.mpip.housing_service.ui.amenity_items
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
+import android.text.SpannableStringBuilder
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.core.text.bold
 import mk.ukim.finki.mpip.housing_service.R
 import mk.ukim.finki.mpip.housing_service.domain.model.AmenityItem
+import mk.ukim.finki.mpip.housing_service.domain.model.AmenityItemStatus
 
 class AmenityItemDetailsDialog(val amenityItem: AmenityItem) : AppCompatDialogFragment() {
 
@@ -30,9 +33,24 @@ class AmenityItemDetailsDialog(val amenityItem: AmenityItem) : AppCompatDialogFr
         val status: TextView? = view?.findViewById(R.id.amenityItemDetailsStatus)
 
         title?.text = amenityItem.amenity.title
-        description?.text = amenityItem.amenity.description
-        amount?.text = "Amount to pay: ${amenityItem.amenity.amount}"
-        status?.text = "Current status: ${amenityItem.status}"
+        description?.text = SpannableStringBuilder()
+            .bold { append("Description:") }
+            .append(" ${amenityItem.amenity.description}")
+        amount?.text = SpannableStringBuilder()
+            .bold {
+                append(
+                    "${
+                        if (amenityItem.status == AmenityItemStatus.PENDING)
+                            "Amount to pay"
+                        else
+                            "Paid amount"
+                    }:"
+                )
+            }
+            .append(" ${amenityItem.amenity.amount}")
+        status?.text = SpannableStringBuilder()
+            .bold { append("Your status:") }
+            .append(" ${amenityItem.status}")
 
         return builder.setView(view)
             .setNegativeButton("OK") { _, _ -> }

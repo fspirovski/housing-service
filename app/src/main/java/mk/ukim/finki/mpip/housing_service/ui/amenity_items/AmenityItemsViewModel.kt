@@ -19,12 +19,12 @@ class AmenityItemsViewModel : ViewModel() {
     val amenityItemsList = MutableLiveData<MutableList<AmenityItem>>()
     val responseMessage = MutableLiveData<String>()
 
-    fun findAllAmenityItemsByResident() {
+    fun findAllAmenityItemsByResidentAndStatus(amenityItemStatus: AmenityItemStatus) {
         CoroutineScope(Dispatchers.IO).launch {
             HousingService
                 .findAllAmenityItemsByResidentAndStatus(
                     localStorageService.getData("current-user-id", "").toString(),
-                    AmenityItemStatus.PENDING
+                    amenityItemStatus
                 )
                 .enqueue(object : Callback<MutableList<AmenityItem>> {
                     override fun onResponse(

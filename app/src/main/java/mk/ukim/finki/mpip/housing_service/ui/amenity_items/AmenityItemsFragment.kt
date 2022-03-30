@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import mk.ukim.finki.mpip.housing_service.R
 import mk.ukim.finki.mpip.housing_service.domain.model.AmenityItem
+import mk.ukim.finki.mpip.housing_service.domain.model.AmenityItemStatus
 
 class AmenityItemsFragment : Fragment(), AmenityItemDetailsDialog.AmenityItemDetailsDialogListener {
 
@@ -23,6 +25,9 @@ class AmenityItemsFragment : Fragment(), AmenityItemDetailsDialog.AmenityItemDet
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_amenity_items, container, false)
+        val pendingAmenityItemsButton: Button = view.findViewById(R.id.pendingAmenityItemsButton)
+        val paidAmenityItemsButton: Button = view.findViewById(R.id.paidAmenityItemsButton)
+        val allAmenityItemsButton: Button = view.findViewById(R.id.allAmenityItemsButton)
 
         amenityItemsViewModel =
             ViewModelProvider(this)[AmenityItemsViewModel::class.java]
@@ -44,13 +49,25 @@ class AmenityItemsFragment : Fragment(), AmenityItemDetailsDialog.AmenityItemDet
             amenityItemsAdapter.updateAmenityItems(it)
         })
 
+        pendingAmenityItemsButton.setOnClickListener {
+            amenityItemsViewModel.findAllAmenityItemsByResidentAndStatus(AmenityItemStatus.PENDING)
+        }
+
+        paidAmenityItemsButton.setOnClickListener {
+            amenityItemsViewModel.findAllAmenityItemsByResidentAndStatus(AmenityItemStatus.PAID)
+        }
+
+        allAmenityItemsButton.setOnClickListener {
+            amenityItemsViewModel.findAllAmenityItemsByResidentAndStatus(AmenityItemStatus.ALL)
+        }
+
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        amenityItemsViewModel.findAllAmenityItemsByResident()
+        amenityItemsViewModel.findAllAmenityItemsByResidentAndStatus(AmenityItemStatus.PENDING)
     }
 
     private fun openAmenityItemDetailsDialog(amenityItem: AmenityItem) {
