@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import mk.ukim.finki.mpip.housing_service.domain.dto.ConfirmationOfPaymentDto
 import mk.ukim.finki.mpip.housing_service.domain.model.AmenityItem
 import mk.ukim.finki.mpip.housing_service.domain.model.AmenityItemStatus
 import mk.ukim.finki.mpip.housing_service.service.LocalStorageService
@@ -18,6 +19,7 @@ class AmenityItemsViewModel : ViewModel() {
     private val localStorageService = LocalStorageService()
     val amenityItemsList = MutableLiveData<MutableList<AmenityItem>>()
     val responseMessage = MutableLiveData<String>()
+    val responseError = MutableLiveData<Boolean>()
 
     fun findAllAmenityItemsByResidentAndStatus(amenityItemStatus: AmenityItemStatus) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -42,6 +44,34 @@ class AmenityItemsViewModel : ViewModel() {
 
                     override fun onFailure(call: Call<MutableList<AmenityItem>>, t: Throwable) {
                         responseMessage.postValue(t.message)
+                    }
+                })
+        }
+    }
+
+    fun sendConfirmationOfPayment(
+        id: String,
+        confirmationOfPaymentDto: ConfirmationOfPaymentDto
+    ) {
+        CoroutineScope(Dispatchers.IO).launch {
+            HousingService
+                .sendConfirmationOfPayment(id, confirmationOfPaymentDto)
+                .enqueue(object : Callback<AmenityItem> {
+                    override fun onResponse(
+                        call: Call<AmenityItem>,
+                        response: Response<AmenityItem>
+                    ) {
+                        if (response.isSuccessful) {
+                            responseError.postValue(false)
+                        } else {
+                            responseMessage.postValue("An error occurred! Error ${response.code()}.")
+                            responseError.postValue(true)
+                        }
+                    }
+
+                    override fun onFailure(call: Call<AmenityItem>, t: Throwable) {
+                        responseMessage.postValue(t.message)
+                        responseError.postValue(true)
                     }
                 })
         }

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "611688034616",
+    "project_id": "housing-service-e934d",
+    "storage_bucket": "housing-service-e934d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:611688034616:android:f75bdcade17e9a1d7791cd",
+        "android_client_info": {
+          "package_name": "mk.ukim.finki.mpip.housing_service"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "611688034616-iusoj4ql5ldcb8m0apqk0283vb1uu71f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPZfRIwqx6zahjyngtelucOgIXT5of7cA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "611688034616-iusoj4ql5ldcb8m0apqk0283vb1uu71f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
