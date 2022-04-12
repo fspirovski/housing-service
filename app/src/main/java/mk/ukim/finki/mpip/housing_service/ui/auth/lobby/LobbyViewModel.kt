@@ -2,6 +2,7 @@ package mk.ukim.finki.mpip.housing_service.ui.auth.lobby
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -79,6 +80,7 @@ class LobbyViewModel : ViewModel() {
     }
 
     private fun saveHouseCouncilInfo(houseCouncil: HouseCouncil) {
+        localStorageService.saveData("house-council-obj", Gson().toJson(houseCouncil))
         localStorageService.saveData("house-council", houseCouncil.id)
     }
 }

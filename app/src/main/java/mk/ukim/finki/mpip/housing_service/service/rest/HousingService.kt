@@ -78,6 +78,9 @@ object HousingService {
     ): Call<MutableList<AmenityItem>> =
         housingServiceApi.findAllAmenityItemsByResidentAndStatus(residentId, status)
 
+    fun findAllAmenityItemsByStatus(status: AmenityItemStatus): Call<MutableList<AmenityItem>> =
+        housingServiceApi.findAllAmenityItemsByStatus(status)
+
     fun findAmenityItemById(id: String): Call<AmenityItem> =
         housingServiceApi.findAmenityItemById(id)
 

@@ -37,10 +37,20 @@
         android:textSize="14sp" />
 
     <TextView
-        android:id="@+id/amenityItemDetailsAmount"
+        android:id="@+id/amenityItemDetailsResident"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/amenityItemDetailsDescription"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Resident"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/amenityItemDetailsAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/amenityItemDetailsResident"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:text="Amount"

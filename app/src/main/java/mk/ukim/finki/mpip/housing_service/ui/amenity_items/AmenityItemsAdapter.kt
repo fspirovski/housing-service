@@ -10,7 +10,7 @@ import mk.ukim.finki.mpip.housing_service.R
 import mk.ukim.finki.mpip.housing_service.domain.model.AmenityItem
 import mk.ukim.finki.mpip.housing_service.domain.model.AmenityItemStatus
 
-class AmenityItemsAdapter(var amenityItemsList: List<AmenityItem>) :
+class AmenityItemsAdapter(var amenityItemsList: List<AmenityItem>, var isAdmin: Boolean) :
     RecyclerView.Adapter<AmenityItemsAdapter.ViewHolder>() {
 
     var onItemClick: ((AmenityItem) -> Unit)? = null
@@ -27,7 +27,10 @@ class AmenityItemsAdapter(var amenityItemsList: List<AmenityItem>) :
         }
 
         fun populateViewHolder(amenityItem: AmenityItem) {
-            val title = "${adapterPosition + 1}. ${amenityItem.amenity.title}"
+            val title = when (isAdmin) {
+                false -> "${adapterPosition + 1}. ${amenityItem.amenity.title}"
+                true -> "${adapterPosition + 1}. ${amenityItem.amenity.title}\nResident: ${amenityItem.resident.emailAddress}"
+            }
             val status = when (amenityItem.status) {
                 AmenityItemStatus.PENDING -> images[0]
                 AmenityItemStatus.PAID -> images[1]

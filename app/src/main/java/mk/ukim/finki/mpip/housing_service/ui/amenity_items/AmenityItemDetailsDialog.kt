@@ -19,9 +19,11 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.text.bold
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.storage.FirebaseStorage
 import mk.ukim.finki.mpip.housing_service.R
+import mk.ukim.finki.mpip.housing_service.domain.dto.AmenityItemStatusDto
 import mk.ukim.finki.mpip.housing_service.domain.dto.ConfirmationOfPaymentDto
 import mk.ukim.finki.mpip.housing_service.domain.model.AmenityItem
 import mk.ukim.finki.mpip.housing_service.domain.model.AmenityItemStatus
@@ -29,19 +31,10 @@ import java.io.File
 
 class AmenityItemDetailsDialog(val amenityItem: AmenityItem) : AppCompatDialogFragment() {
 
-    interface AmenityItemDetailsDialogListener {
-        fun saveConfirmationOfPayment(URL: String)
-    }
-
     private lateinit var amenityItemsViewModel: AmenityItemsViewModel
     private var firebaseStorageInstance = FirebaseStorage.getInstance()
     private var storageReference = firebaseStorageInstance.reference
     private lateinit var uploadFileLauncher: ActivityResultLauncher<Intent>
-    private lateinit var amenityItemDetailsDialogListener: AmenityItemDetailsDialogListener
-
-    fun setAmenityItemDetailsDialogListener(amenityItemDetailsDialogListener: AmenityItemDetailsDialogListener) {
-        this.amenityItemDetailsDialogListener = amenityItemDetailsDialogListener
-    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         amenityItemsViewModel = ViewModelProvider(this)[AmenityItemsViewModel::class.java]
@@ -56,6 +49,7 @@ class AmenityItemDetailsDialog(val amenityItem: AmenityItem) : AppCompatDialogFr
 
         val title: TextView? = view?.findViewById(R.id.amenityItemDetailsTitle)
         val description: TextView? = view?.findViewById(R.id.amenityItemDetailsDescription)
+        val resident: TextView? = view?.findViewById(R.id.amenityItemDetailsResident)
         val amount: TextView? = view?.findViewById(R.id.amenityItemDetailsAmount)
         val status: TextView? = view?.findViewById(R.id.amenityItemDetailsStatus)
         val confirmationOfPayment: TextView? =
@@ -67,6 +61,9 @@ class AmenityItemDetailsDialog(val amenityItem: AmenityItem) : AppCompatDialogFr
         description?.text = SpannableStringBuilder()
             .bold { append("Description:") }
             .append(" ${amenityItem.amenity.description}")
+        resident?.text = SpannableStringBuilder()
+            .bold { append("Resident:") }
+            .append(" ${amenityItem.resident.emailAddress}")
         amount?.text = SpannableStringBuilder()
             .bold {
                 append(
@@ -80,11 +77,15 @@ class AmenityItemDetailsDialog(val amenityItem: AmenityItem) : AppCompatDialogFr
             }
             .append(" ${amenityItem.amenity.amount}")
         status?.text = SpannableStringBuilder()
-            .bold { append("Your status:") }
+            .bold { append("Amenity status:") }
             .append(" ${amenityItem.status}")
         confirmationOfPayment?.text = SpannableStringBuilder()
             .append(" ${amenityItem.confirmationOfPaymentFileName ?: "No confirmation attached."}")
         uploadConfirmationOfPaymentButton?.setOnClickListener { uploadPDFFile() }
+
+        if (!amenityItemsViewModel.isAdmin()) {
+            resident?.isVisible = false
+        }
 
         if (amenityItem.confirmationOfPaymentUri != null) {
             confirmationOfPayment?.setOnClickListener {
@@ -104,7 +105,9 @@ class AmenityItemDetailsDialog(val amenityItem: AmenityItem) : AppCompatDialogFr
             }
         }
 
-        if (amenityItem.status == AmenityItemStatus.PAID) {
+        if ((amenityItemsViewModel.isAdmin() && amenityItem.resident.id != amenityItemsViewModel.getUser().id)
+            || amenityItem.status == AmenityItemStatus.PAID
+        ) {
             uploadConfirmationOfPaymentButton?.isEnabled = false
         }
 
@@ -167,9 +170,19 @@ class AmenityItemDetailsDialog(val amenityItem: AmenityItem) : AppCompatDialogFr
                 }
             }
 
-        return builder.setView(view)
+        var dialog = builder.setView(view)
             .setNegativeButton("OK") { _, _ -> }
-            .create()
+
+        if (amenityItemsViewModel.isAdmin() && amenityItem.status != AmenityItemStatus.PAID) {
+            dialog = dialog.setPositiveButton("Approve") { _, _ ->
+                amenityItemsViewModel.changeAmenityItemStatus(
+                    amenityItem.id,
+                    AmenityItemStatusDto(AmenityItemStatus.PAID)
+                )
+            }
+        }
+
+        return dialog.create()
     }
 
     private fun uploadPDFFile() {

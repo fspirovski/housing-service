@@ -14,7 +14,7 @@ import mk.ukim.finki.mpip.housing_service.R
 import mk.ukim.finki.mpip.housing_service.domain.model.AmenityItem
 import mk.ukim.finki.mpip.housing_service.domain.model.AmenityItemStatus
 
-class AmenityItemsFragment : Fragment(), AmenityItemDetailsDialog.AmenityItemDetailsDialogListener {
+class AmenityItemsFragment : Fragment() {
 
     private lateinit var amenityItemsViewModel: AmenityItemsViewModel
     private lateinit var amenityItemsRecyclerView: RecyclerView
@@ -33,7 +33,8 @@ class AmenityItemsFragment : Fragment(), AmenityItemDetailsDialog.AmenityItemDet
             ViewModelProvider(this)[AmenityItemsViewModel::class.java]
         amenityItemsRecyclerView = view.findViewById(R.id.amenityItemsRecyclerView)
 
-        val amenityItemsAdapter = AmenityItemsAdapter(mutableListOf())
+        val amenityItemsAdapter =
+            AmenityItemsAdapter(mutableListOf(), amenityItemsViewModel.isAdmin())
         amenityItemsAdapter.onItemClick = { openAmenityItemDetailsDialog(it) }
 
         amenityItemsRecyclerView.adapter = amenityItemsAdapter
@@ -50,15 +51,27 @@ class AmenityItemsFragment : Fragment(), AmenityItemDetailsDialog.AmenityItemDet
         })
 
         pendingAmenityItemsButton.setOnClickListener {
-            amenityItemsViewModel.findAllAmenityItemsByResidentAndStatus(AmenityItemStatus.PENDING)
+            if (amenityItemsViewModel.isAdmin()) {
+                amenityItemsViewModel.findAllAmenityItemsByStatus(AmenityItemStatus.PENDING)
+            } else {
+                amenityItemsViewModel.findAllAmenityItemsByResidentAndStatus(AmenityItemStatus.PENDING)
+            }
         }
 
         paidAmenityItemsButton.setOnClickListener {
-            amenityItemsViewModel.findAllAmenityItemsByResidentAndStatus(AmenityItemStatus.PAID)
+            if (amenityItemsViewModel.isAdmin()) {
+                amenityItemsViewModel.findAllAmenityItemsByStatus(AmenityItemStatus.PAID)
+            } else {
+                amenityItemsViewModel.findAllAmenityItemsByResidentAndStatus(AmenityItemStatus.PAID)
+            }
         }
 
         allAmenityItemsButton.setOnClickListener {
-            amenityItemsViewModel.findAllAmenityItemsByResidentAndStatus(AmenityItemStatus.ALL)
+            if (amenityItemsViewModel.isAdmin()) {
+                amenityItemsViewModel.findAllAmenityItemsByStatus(AmenityItemStatus.ALL)
+            } else {
+                amenityItemsViewModel.findAllAmenityItemsByResidentAndStatus(AmenityItemStatus.ALL)
+            }
         }
 
         return view
@@ -67,17 +80,16 @@ class AmenityItemsFragment : Fragment(), AmenityItemDetailsDialog.AmenityItemDet
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        amenityItemsViewModel.findAllAmenityItemsByResidentAndStatus(AmenityItemStatus.PENDING)
+        if (amenityItemsViewModel.isAdmin()) {
+            amenityItemsViewModel.findAllAmenityItemsByStatus(AmenityItemStatus.PENDING)
+        } else {
+            amenityItemsViewModel.findAllAmenityItemsByResidentAndStatus(AmenityItemStatus.PENDING)
+        }
     }
 
     private fun openAmenityItemDetailsDialog(amenityItem: AmenityItem) {
         val dialog = AmenityItemDetailsDialog(amenityItem)
 
-        dialog.setAmenityItemDetailsDialogListener(this)
         dialog.show(childFragmentManager, "Amenity item details dialog")
-    }
-
-    override fun saveConfirmationOfPayment(URL: String) {
-        TODO("Not yet implemented")
     }
 }

@@ -52,6 +52,11 @@ interface HousingServiceApi {
         @Path("status") status: AmenityItemStatus
     ): Call<MutableList<AmenityItem>>
 
+    @GET("api/amenity-items/by-status/{status}")
+    fun findAllAmenityItemsByStatus(
+        @Path("status") status: AmenityItemStatus
+    ): Call<MutableList<AmenityItem>>
+
     @GET("api/amenity-items/{id}")
     fun findAmenityItemById(@Path("id") id: String): Call<AmenityItem>
 
@@ -64,7 +69,7 @@ interface HousingServiceApi {
     @PUT("api/amenity-items/{id}/change-status")
     fun changeAmenityItemStatus(
         @Path("id") id: String,
-        amenityItemStatusDto: AmenityItemStatusDto
+        @Body amenityItemStatusDto: AmenityItemStatusDto
     ): Call<AmenityItem>
 
     @GET("api/polls/{houseCouncilId}/by-house-council")
