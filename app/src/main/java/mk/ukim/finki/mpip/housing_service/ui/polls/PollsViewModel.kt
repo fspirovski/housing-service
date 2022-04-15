@@ -5,7 +5,10 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import mk.ukim.finki.mpip.housing_service.domain.dto.ChooseAdminDto
+import mk.ukim.finki.mpip.housing_service.domain.dto.VoteStatusDto
 import mk.ukim.finki.mpip.housing_service.domain.model.Poll
+import mk.ukim.finki.mpip.housing_service.domain.model.VoteStatus
 import mk.ukim.finki.mpip.housing_service.service.LocalStorageService
 import mk.ukim.finki.mpip.housing_service.service.rest.HousingService
 import retrofit2.Call
@@ -17,7 +20,6 @@ class PollsViewModel : ViewModel() {
     private val localStorageService = LocalStorageService()
     val pollsList = MutableLiveData<MutableList<Poll>>()
     val responseMessage = MutableLiveData<String>()
-    val responseError = MutableLiveData<Boolean>()
 
     fun findAllPollsByHouseCouncil() {
         CoroutineScope(Dispatchers.IO).launch {
@@ -34,19 +36,61 @@ class PollsViewModel : ViewModel() {
                             val polls = response.body()!!
 
                             pollsList.postValue(polls)
-                            responseError.postValue(false)
                         } else {
                             responseMessage.postValue("An error occurred! Error ${response.code()}.")
-                            responseError.postValue(true)
                         }
                     }
 
                     override fun onFailure(call: Call<MutableList<Poll>>, t: Throwable) {
                         responseMessage.postValue(t.message)
-                        responseError.postValue(true)
                     }
                 })
         }
 
+    }
+
+    fun chooseNewAdmin(adminCandidateId: String) {
+        val houseCouncilId = localStorageService.getData("house-council", "")!!
+        val chooseAdminDto = ChooseAdminDto(
+            adminCandidateId,
+            houseCouncilId
+        )
+
+        CoroutineScope(Dispatchers.IO).launch {
+            HousingService.chooseAdmin(chooseAdminDto).enqueue(object : Callback<Poll> {
+                override fun onResponse(call: Call<Poll>, response: Response<Poll>) {
+                    if (response.isSuccessful) {
+                        findAllPollsByHouseCouncil()
+                    } else {
+                        responseMessage.postValue("An error occurred! Error ${response.code()}.")
+                    }
+                }
+
+                override fun onFailure(call: Call<Poll>, t: Throwable) {
+                    responseMessage.postValue(t.message)
+                }
+            })
+        }
+    }
+
+    fun vote(voteStatus: VoteStatus, pollId: String) {
+        val currentUserId = localStorageService.getData("current-user-id", "").toString()
+        val voteStatusDto = VoteStatusDto(voteStatus, pollId)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            HousingService.vote(currentUserId, voteStatusDto).enqueue(object : Callback<String> {
+                override fun onResponse(call: Call<String>, response: Response<String>) {
+                    if (response.isSuccessful) {
+                        findAllPollsByHouseCouncil()
+                    } else {
+                        responseMessage.postValue("An error occurred! Error ${response.code()}.")
+                    }
+                }
+
+                override fun onFailure(call: Call<String>, t: Throwable) {
+                    responseMessage.postValue(t.message)
+                }
+            })
+        }
     }
 }
