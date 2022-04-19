@@ -6,12 +6,36 @@
     android:paddingHorizontal="30dp"
     android:paddingTop="20dp">
 
+    <TextView
+        android:id="@+id/voteTitle"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:text="Submit your vote"
+        android:textSize="14sp"
+        />
+
+    <View
+        android:id="@+id/newAdminCandidateSeparator"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_below="@id/voteTitle"
+        android:layout_alignLeft="@id/radio_group"
+        android:layout_alignRight="@id/radio_group"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="#FF6200EE" />
+
     <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/radio_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:orientation="vertical">
         <RadioButton android:id="@+id/radio_for"
+            android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="FOR"

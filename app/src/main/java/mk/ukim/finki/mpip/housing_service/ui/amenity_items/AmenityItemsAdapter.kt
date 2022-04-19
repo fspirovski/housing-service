@@ -10,7 +10,7 @@ import mk.ukim.finki.mpip.housing_service.R
 import mk.ukim.finki.mpip.housing_service.domain.model.AmenityItem
 import mk.ukim.finki.mpip.housing_service.domain.model.AmenityItemStatus
 
-class AmenityItemsAdapter(var amenityItemsList: List<AmenityItem>) :
+class AmenityItemsAdapter(var amenityItemsList: List<AmenityItem>, var isAdmin: Boolean) :
     RecyclerView.Adapter<AmenityItemsAdapter.ViewHolder>() {
 
     var onItemClick: ((AmenityItem) -> Unit)? = null
@@ -27,21 +27,25 @@ class AmenityItemsAdapter(var amenityItemsList: List<AmenityItem>) :
         }
 
         fun populateViewHolder(amenityItem: AmenityItem) {
-            val title = "${adapterPosition + 1}. ${amenityItem.amenity.title}"
+            val title = when (isAdmin) {
+                false -> "${adapterPosition + 1}. ${amenityItem.amenity.title}"
+                true -> "${adapterPosition + 1}. ${amenityItem.amenity.title}\nResident: ${amenityItem.resident.emailAddress}"
+            }
             val status = when (amenityItem.status) {
                 AmenityItemStatus.PENDING -> images[0]
                 AmenityItemStatus.PAID -> images[1]
+                AmenityItemStatus.ALL -> null
             }
 
             amenityItemTitle.text = title
-            amenityItemStatus.setImageResource(status)
+            amenityItemStatus.setImageResource(status!!)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.amenity_item_row, parent, false)
-        val images = intArrayOf(R.drawable.pending, R.drawable.paid)
+        val images = intArrayOf(R.drawable.pending, R.drawable.money)
 
         return ViewHolder(view, images)
     }

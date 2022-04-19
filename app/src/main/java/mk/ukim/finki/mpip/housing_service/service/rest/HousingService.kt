@@ -56,6 +56,11 @@ object HousingService {
 
     fun findAmenityById(id: String): Call<Amenity> = housingServiceApi.findAmenityById(id)
 
+    fun sendConfirmationOfPayment(
+        id: String,
+        confirmationOfPaymentDto: ConfirmationOfPaymentDto
+    ): Call<AmenityItem> = housingServiceApi.sendConfirmationOfPayment(id, confirmationOfPaymentDto)
+
     fun createAmenity(amenityDto: AmenityDto): Call<Amenity> =
         housingServiceApi.createAmenity(amenityDto)
 
@@ -72,6 +77,9 @@ object HousingService {
         status: AmenityItemStatus
     ): Call<MutableList<AmenityItem>> =
         housingServiceApi.findAllAmenityItemsByResidentAndStatus(residentId, status)
+
+    fun findAllAmenityItemsByStatus(status: AmenityItemStatus): Call<MutableList<AmenityItem>> =
+        housingServiceApi.findAllAmenityItemsByStatus(status)
 
     fun findAmenityItemById(id: String): Call<AmenityItem> =
         housingServiceApi.findAmenityItemById(id)

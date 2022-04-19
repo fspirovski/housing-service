@@ -7,5 +7,6 @@ data class AmenityItem(
     val amenity: Amenity,
     val resident: User,
     val status: AmenityItemStatus,
-    val confirmationOfPayment: String?
+    val confirmationOfPaymentFileName: String?,
+    val confirmationOfPaymentUri: String?
 ) : Serializable

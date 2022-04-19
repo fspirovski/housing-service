@@ -10,16 +10,19 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.gson.Gson
 import mk.ukim.finki.mpip.housing_service.R
 import mk.ukim.finki.mpip.housing_service.domain.model.HouseCouncil
 import mk.ukim.finki.mpip.housing_service.domain.model.Poll
 import mk.ukim.finki.mpip.housing_service.domain.model.VoteStatus
+import mk.ukim.finki.mpip.housing_service.service.LocalStorageService
 
 class PollsFragment : Fragment(), NewPollDialog.NewPollDialogListener,
     VoteDialog.VoteDialogListener {
 
     private lateinit var pollsViewModel: PollsViewModel
     private lateinit var pollsRecyclerView: RecyclerView
+    private val localStorageService = LocalStorageService()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -63,7 +66,11 @@ class PollsFragment : Fragment(), NewPollDialog.NewPollDialogListener,
     }
 
     private fun openNewPollDialog() {
-        val dialog = NewPollDialog()
+        val houseCouncil = Gson().fromJson(
+            localStorageService.getData("house-council-obj", null),
+            HouseCouncil::class.java
+        )
+        val dialog = NewPollDialog(houseCouncil.residents.toList())
 
         dialog.setNewPollDialogListener(this)
         dialog.show(childFragmentManager, "New poll dialog")
@@ -76,7 +83,7 @@ class PollsFragment : Fragment(), NewPollDialog.NewPollDialogListener,
         dialog.show(childFragmentManager, "Vote dialog")
     }
 
-    override fun saveUserInput(adminCandidateId: String, description: String) {
+    override fun saveUserInput(adminCandidateId: String) {
         pollsViewModel.chooseNewAdmin(adminCandidateId)
     }
 
