@@ -37,9 +37,6 @@ interface HousingServiceApi {
     @POST("api/amenities/create")
     fun createAmenity(@Body amenityDto: AmenityDto): Call<Amenity>
 
-    @POST("api/amenities/choose-admin")
-    fun chooseAdmin(@Body chooseAdminDto: ChooseAdminDto): Call<Poll>
-
     @PUT("api/amenities/{id}/edit")
     fun editAmenity(@Path("id") id: String, @Body amenityDto: AmenityDto): Call<Amenity>
 
@@ -72,6 +69,9 @@ interface HousingServiceApi {
         @Body amenityItemStatusDto: AmenityItemStatusDto
     ): Call<AmenityItem>
 
+    @POST("api/polls/choose-admin")
+    fun chooseAdmin(@Body chooseAdminDto: ChooseAdminDto): Call<Poll>
+
     @GET("api/polls/{houseCouncilId}/by-house-council")
     fun findAllPollsByHouseCouncil(@Path("houseCouncilId") houseCouncilId: String): Call<MutableList<Poll>>
 
@@ -82,5 +82,5 @@ interface HousingServiceApi {
     fun findVoteById(@Path("id") id: String): Call<Vote>
 
     @POST("api/votes/{userId}/vote")
-    fun vote(@Path("userId") userId: String, voteStatusDto: VoteStatusDto): Call<String>
+    fun vote(@Path("userId") userId: String, @Body voteStatusDto: VoteStatusDto): Call<String>
 }

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:paddingHorizontal="30dp"
+    android:paddingTop="20dp">
+
+    <TextView
+        android:id="@+id/newAdminCandidateTitle"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:text="Choose new admin"
+        android:textSize="14sp"
+        />
+
+    <View
+        android:id="@+id/newAdminCandidateSeparator"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_below="@id/newAdminCandidateTitle"
+        android:layout_alignLeft="@id/newAdminCandidateDropdown"
+        android:layout_alignRight="@id/newAdminCandidateDropdown"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="#FF6200EE" />
+
+    <Spinner android:id="@+id/newAdminCandidateDropdown"
+        android:layout_width="200dp"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/newAdminCandidateSeparator"
+        android:hint="Admin Candidate"
+        android:textSize="14sp"/>
+
+
+<!--    <EditText-->
+<!--        android:id="@+id/newAmenityDescription"-->
+<!--        android:layout_width="200dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@id/newAmenitySeparator"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:hint="Description"-->
+<!--        android:textSize="14sp" />-->
+
+
+</RelativeLayout>
