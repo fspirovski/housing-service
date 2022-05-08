@@ -5,6 +5,7 @@
     <string name="title_amenity_items">Amenity Items</string>
     <string name="title_amenity_item_details">Amenity Item Details</string>
     <string name="title_polls">Polls</string>
+    <string name="title_profile">Profile</string>
     <string name="title_poll_details">Poll Details</string>
     <string name="title_login">Login</string>
     <string name="title_register">Register</string>
@@ -12,10 +13,7 @@
     <string name="subtitle_amenities">List of all amenities</string>
     <string name="subtitle_amenity_items">List of my amenity items</string>
     <string name="subtitle_polls">List of all polls</string>
-    <string-array name="dummy_residents">
-        <item>Viktor Sadikovic</item>
-        <item>Filip Spirovski</item>
-        <item>Stefan Velkoski</item>
-        <item>Dimitar Kitanovski</item>
-    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

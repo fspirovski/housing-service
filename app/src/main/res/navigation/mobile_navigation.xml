@@ -27,6 +27,11 @@
             app:destination="@id/pollDetailsFragment" />
     </fragment>
     <fragment
+        android:id="@+id/navigation_profile"
+        android:name="mk.ukim.finki.mpip.housing_service.ui.profile.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
         android:id="@+id/pollDetailsFragment"
         android:name="mk.ukim.finki.mpip.housing_service.ui.pollDetails.PollDetailsFragment"
         android:label="poll_details_fragment"
@@ -36,4 +41,9 @@
             app:argType="mk.ukim.finki.mpip.housing_service.domain.model.Poll"
             app:nullable="true" />
     </fragment>
+<!--    <fragment-->
+<!--        android:id="@+id/profileFragment"-->
+<!--        android:name="mk.ukim.finki.mpip.housing_service.ui.ProfileFragment"-->
+<!--        android:label="fragment_profile"-->
+<!--        tools:layout="@layout/fragment_profile" />-->
 </navigation>

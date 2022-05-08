@@ -34,23 +34,34 @@ class NewPollDialog(val residents: List<User>) : AppCompatDialogFragment() {
 
         val adminCandidateId: Spinner? = view?.findViewById(R.id.newAdminCandidateDropdown)
 
-        val residentsArray = residents.map { resident -> resident.id }
+//        val residentsArray = residents.map { resident -> resident.toS }
 
         val spinnerAdapter =
-            ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_item, residentsArray)
+            ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_item, residents)
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         adminCandidateId!!.adapter = spinnerAdapter
 
+        adminCandidateId.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val user = parent?.getItemAtPosition(position) as User
+                Toast.makeText(context, user.id, Toast.LENGTH_LONG).show()
+            }
+        }
+
         return builder.setView(view)
             .setNegativeButton("Cancel") { _, _ -> }
             .setPositiveButton("Save") { _, _ ->
-                val a = adminCandidateId?.selectedItem.toString()
+                val selectedUser = adminCandidateId?.selectedItem as User
 
-                val validationResult = validateUserInput(a)
+                val validationResult = validateUserInput(selectedUser.id)
 
                 if (validationResult.containsKey(true)) {
-                    newPollDialogListener.saveUserInput(a)
+                    newPollDialogListener.saveUserInput(selectedUser.id)
                 } else {
                     Toast
                         .makeText(activity, validationResult[false], Toast.LENGTH_LONG)

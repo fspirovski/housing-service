@@ -8,4 +8,8 @@ data class User(
     val apartmentNumbers: List<Long>,
     val emailAddress: String,
     val password: String
-)
+) {
+    override fun toString(): String {
+        return "${name} ${surname}"
+    }
+}
