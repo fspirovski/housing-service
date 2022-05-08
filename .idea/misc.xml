@@ -9,7 +9,9 @@
         <entry key="..\:/Fakultet/7-mi semestar/Mobilni platformi i programiranje/Proekt/housing-service/app/src/main/res/layout/fragment_house_council.xml" value="0.1" />
         <entry key="..\:/Fakultet/7-mi semestar/Mobilni platformi i programiranje/Proekt/housing-service/app/src/main/res/layout/fragment_lobby.xml" value="0.33" />
         <entry key="..\:/Fakultet/7-mi semestar/Mobilni platformi i programiranje/Proekt/housing-service/app/src/main/res/layout/fragment_login.xml" value="0.22" />
+        <entry key="app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.36614583333333334" />
         <entry key="app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.31302083333333336" />
+        <entry key="app/src/main/res/drawable/ic_profile_24.xml" value="0.36614583333333334" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.296195652173913" />
         <entry key="app/src/main/res/layout/amenity_details_fragment.xml" value="0.25" />
         <entry key="app/src/main/res/layout/amenity_item_details_fragment.xml" value="0.33" />
@@ -22,6 +24,7 @@
         <entry key="app/src/main/res/layout/fragment_lobby.xml" value="0.18854166666666666" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.28072916666666664" />
         <entry key="app/src/main/res/layout/fragment_polls.xml" value="0.18854166666666666" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.35" />
         <entry key="app/src/main/res/layout/new_amenity_dialog.xml" value="0.335" />
         <entry key="app/src/main/res/layout/new_poll_dialog.xml" value="0.3562952930704506" />
         <entry key="app/src/main/res/layout/poll_details_fragment.xml" value="0.37604166666666666" />

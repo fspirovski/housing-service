@@ -15,4 +15,8 @@ class LocalStorageService {
     }
 
     fun getData(key: String, value: String?) = sharedPreferences.getString(key, value)
+
+    fun clearData() {
+        editor.clear().apply()
+    }
 }
