@@ -14,14 +14,15 @@ import mk.ukim.finki.mpip.housing_service.domain.model.VoteStatus
 import mk.ukim.finki.mpip.housing_service.service.LocalStorageService
 
 class VoteDialog(val poll: Poll) : AppCompatDialogFragment() {
+
     interface VoteDialogListener {
         fun saveVote(adminCandidateId: VoteStatus, pollId: String)
     }
 
     private val localStorageService = LocalStorageService()
-    private lateinit var voteDialogListener: VoteDialog.VoteDialogListener
+    private lateinit var voteDialogListener: VoteDialogListener
 
-    fun setVoteDialogListener(voteDialogListener: VoteDialog.VoteDialogListener) {
+    fun setVoteDialogListener(voteDialogListener: VoteDialogListener) {
         this.voteDialogListener = voteDialogListener
     }
 

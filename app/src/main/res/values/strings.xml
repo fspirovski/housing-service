@@ -13,7 +13,4 @@
     <string name="subtitle_amenities">List of all amenities</string>
     <string name="subtitle_amenity_items">List of my amenity items</string>
     <string name="subtitle_polls">List of all polls</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
 </resources>

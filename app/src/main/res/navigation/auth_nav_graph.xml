@@ -34,4 +34,5 @@
         android:name="mk.ukim.finki.mpip.housing_service.ui.auth.lobby.LobbyFragment"
         android:label="@string/title_lobby"
         tools:layout="@layout/fragment_lobby" />
+
 </navigation>

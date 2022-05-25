@@ -62,7 +62,7 @@ class PollsViewModel : ViewModel() {
                     if (response.isSuccessful) {
                         findAllPollsByHouseCouncil()
                     } else {
-                        responseMessage.postValue("An error occurred! Error ${response.code()}.")
+                        responseMessage.postValue("Your vote has already been submitted.")
                     }
                 }
 
@@ -78,8 +78,8 @@ class PollsViewModel : ViewModel() {
         val voteStatusDto = VoteStatusDto(voteStatus, pollId)
 
         CoroutineScope(Dispatchers.IO).launch {
-            HousingService.vote(currentUserId, voteStatusDto).enqueue(object : Callback<String> {
-                override fun onResponse(call: Call<String>, response: Response<String>) {
+            HousingService.vote(currentUserId, voteStatusDto).enqueue(object : Callback<Unit> {
+                override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                     if (response.isSuccessful) {
                         findAllPollsByHouseCouncil()
                     } else {
@@ -87,7 +87,7 @@ class PollsViewModel : ViewModel() {
                     }
                 }
 
-                override fun onFailure(call: Call<String>, t: Throwable) {
+                override fun onFailure(call: Call<Unit>, t: Throwable) {
                     responseMessage.postValue(t.message)
                 }
             })

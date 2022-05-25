@@ -1,16 +1,13 @@
 package mk.ukim.finki.mpip.housing_service.ui.pollDetails
 
-import android.app.ActionBar
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
-import mk.ukim.finki.mpip.housing_service.MainActivity
 import mk.ukim.finki.mpip.housing_service.R
 
 class PollDetailsFragment : Fragment() {
@@ -38,5 +35,4 @@ class PollDetailsFragment : Fragment() {
         detailsAdminCandidate.text = args.poll!!.adminCandidate?.name ?: ""
         detailsAmenityCandidate.text = args.poll!!.amenityCandidate?.title ?: ""
     }
-
 }

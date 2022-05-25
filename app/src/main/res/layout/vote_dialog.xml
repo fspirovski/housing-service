@@ -12,10 +12,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:textAlignment="center"
         android:text="Submit your vote"
-        android:textSize="14sp"
-        />
+        android:textAlignment="center"
+        android:textSize="14sp" />
 
     <View
         android:id="@+id/newAdminCandidateSeparator"
@@ -34,17 +33,20 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:orientation="vertical">
-        <RadioButton android:id="@+id/radio_for"
+
+        <RadioButton
+            android:id="@+id/radio_for"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:text="FOR" />
+
+        <RadioButton
+            android:id="@+id/radio_against"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="FOR"
-            />
-        <RadioButton android:id="@+id/radio_against"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="AGAINST"
-            />
+            android:text="AGAINST" />
+
     </RadioGroup>
 
 </RelativeLayout>

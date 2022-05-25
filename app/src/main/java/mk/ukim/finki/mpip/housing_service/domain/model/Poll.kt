@@ -7,4 +7,4 @@ data class Poll(
     val adminCandidate: User?,
     val amenityCandidate: Amenity?,
     val votes: List<Vote>
-): Serializable
+) : Serializable

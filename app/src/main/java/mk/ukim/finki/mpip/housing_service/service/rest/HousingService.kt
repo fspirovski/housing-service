@@ -96,6 +96,9 @@ object HousingService {
 
     fun findVoteById(id: String): Call<Vote> = housingServiceApi.findVoteById(id)
 
-    fun vote(userId: String, voteStatusDto: VoteStatusDto): Call<String> =
+    fun vote(userId: String, voteStatusDto: VoteStatusDto): Call<Unit> =
         housingServiceApi.vote(userId, voteStatusDto)
+
+    fun invite(inviteMemberDto: InviteMemberDto): Call<Unit> =
+        housingServiceApi.invite(inviteMemberDto)
 }

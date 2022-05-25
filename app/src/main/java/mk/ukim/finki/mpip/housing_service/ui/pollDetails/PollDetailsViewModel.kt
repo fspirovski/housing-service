@@ -12,6 +12,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class PollDetailsViewModel : ViewModel() {
+
     val poll = MutableLiveData<Poll>()
     val responseMessage = MutableLiveData<String>()
     val responseError = MutableLiveData<Boolean>()

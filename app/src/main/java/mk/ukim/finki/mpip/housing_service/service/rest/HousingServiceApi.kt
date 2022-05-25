@@ -82,5 +82,8 @@ interface HousingServiceApi {
     fun findVoteById(@Path("id") id: String): Call<Vote>
 
     @POST("api/votes/{userId}/vote")
-    fun vote(@Path("userId") userId: String, @Body voteStatusDto: VoteStatusDto): Call<String>
+    fun vote(@Path("userId") userId: String, @Body voteStatusDto: VoteStatusDto): Call<Unit>
+
+    @POST("api/users/invite")
+    fun invite(@Body inviteMemberDto: InviteMemberDto): Call<Unit>
 }

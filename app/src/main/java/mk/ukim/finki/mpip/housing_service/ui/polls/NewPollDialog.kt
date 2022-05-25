@@ -4,27 +4,21 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import android.widget.ArrayAdapter
-import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDialogFragment
 import mk.ukim.finki.mpip.housing_service.R
-import java.util.HashMap
-import android.widget.AdapterView
-
 import mk.ukim.finki.mpip.housing_service.domain.model.User
 
-import android.view.View
-
-
 class NewPollDialog(val residents: List<User>) : AppCompatDialogFragment() {
+
     interface NewPollDialogListener {
         fun saveUserInput(adminCandidateId: String)
     }
 
-    private lateinit var newPollDialogListener: NewPollDialog.NewPollDialogListener
+    private lateinit var newPollDialogListener: NewPollDialogListener
 
-    fun setNewPollDialogListener(newPollDialogListener: NewPollDialog.NewPollDialogListener) {
+    fun setNewPollDialogListener(newPollDialogListener: NewPollDialogListener) {
         this.newPollDialogListener = newPollDialogListener
     }
 
@@ -34,24 +28,11 @@ class NewPollDialog(val residents: List<User>) : AppCompatDialogFragment() {
 
         val adminCandidateId: Spinner? = view?.findViewById(R.id.newAdminCandidateDropdown)
 
-//        val residentsArray = residents.map { resident -> resident.toS }
-
         val spinnerAdapter =
             ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_item, residents)
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         adminCandidateId!!.adapter = spinnerAdapter
-
-        adminCandidateId.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val user = parent?.getItemAtPosition(position) as User
-                Toast.makeText(context, user.id, Toast.LENGTH_LONG).show()
-            }
-        }
 
         return builder.setView(view)
             .setNegativeButton("Cancel") { _, _ -> }

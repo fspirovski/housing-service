@@ -10,9 +10,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pollsRecyclerView"
-        android:layout_marginBottom="80dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginBottom="80dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/newPollButton"
@@ -26,6 +26,5 @@
         app:elevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

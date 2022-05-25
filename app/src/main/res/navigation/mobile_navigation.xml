@@ -41,9 +41,5 @@
             app:argType="mk.ukim.finki.mpip.housing_service.domain.model.Poll"
             app:nullable="true" />
     </fragment>
-<!--    <fragment-->
-<!--        android:id="@+id/profileFragment"-->
-<!--        android:name="mk.ukim.finki.mpip.housing_service.ui.ProfileFragment"-->
-<!--        android:label="fragment_profile"-->
-<!--        tools:layout="@layout/fragment_profile" />-->
+
 </navigation>

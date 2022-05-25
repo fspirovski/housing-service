@@ -10,6 +10,6 @@ data class User(
     val password: String
 ) {
     override fun toString(): String {
-        return "${name} ${surname}"
+        return "$name $surname"
     }
 }
